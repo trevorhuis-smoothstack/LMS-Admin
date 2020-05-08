@@ -14,7 +14,7 @@ import com.ss.training.lms.jdbc.ConnectionUtil;
 
 @Component
 public class AdminPublisherService {
-	
+
 	@Autowired
 	ConnectionUtil connUtil;
 	@Autowired

@@ -15,7 +15,7 @@ import com.ss.training.lms.jdbc.ConnectionUtil;
 
 @Component
 public class AdminBranchService {
-	
+
 	@Autowired
 	ConnectionUtil connUtil;
 	@Autowired

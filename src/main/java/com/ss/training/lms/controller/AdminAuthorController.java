@@ -28,14 +28,15 @@ public class AdminAuthorController {
 	@RequestMapping(path = "/lms/admin/authors/{id}")
 	public ResponseEntity<Author> readAuthor(@PathVariable int id) {
 		Author author = null;
+		HttpStatus status = HttpStatus.OK;
 		try {
 			author = service.readAuthor(id);
+			if (author == null) // no author with the requested ID exists
+				status = HttpStatus.NOT_FOUND;
 		} catch (ClassNotFoundException | SQLException e) {
-			return new ResponseEntity<Author>(author, HttpStatus.INTERNAL_SERVER_ERROR);
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-		if (author == null) // no author with the requested ID exists
-			return new ResponseEntity<Author>(author, HttpStatus.NOT_FOUND);
-		return new ResponseEntity<Author>(author, HttpStatus.OK);
+		return new ResponseEntity<Author>(author, status);
 	}
 
 }

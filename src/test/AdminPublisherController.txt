@@ -1,0 +1,5 @@
+readPublisher
+	[] Make good request - accept JSON
+	[] Make good request - accept XML
+	[] Request nonexistent author
+	[] Make request with bad database password

@@ -25,7 +25,7 @@ public class AdminAuthorController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(path = "lms/admin/authors/{id}")
+	@RequestMapping(path = "/lms/admin/authors/{id}")
 	public ResponseEntity<Author> readAuthor(@PathVariable int id) {
 		Author author = null;
 		try {

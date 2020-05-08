@@ -44,7 +44,7 @@ public class AdminGenreController {
 						MediaType.APPLICATION_XML_VALUE,
 						MediaType.APPLICATION_JSON_VALUE
 					})
-	public ResponseEntity<List<Genre>> getAllGenres(@PathVariable int genreId) throws SQLException {
+	public ResponseEntity<List<Genre>> getAllGenres() throws SQLException {
 		List<Genre> genres = null;
         try {
 			genres= genreService.readAllGenres();

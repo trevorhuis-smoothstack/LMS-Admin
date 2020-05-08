@@ -14,6 +14,7 @@ import com.ss.training.lms.service.admin.AdminPublisherService;
 /**
  * @author Justin O'Brien
  */
+@RestController
 public class AdminPublisherController {
 
 	@Autowired

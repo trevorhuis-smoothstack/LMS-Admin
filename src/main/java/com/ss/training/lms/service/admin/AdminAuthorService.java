@@ -70,6 +70,12 @@ public class AdminAuthorService {
 		}
 	}
 
+	/**
+	 * @param authorId
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public Author readAuthor(Integer authorId) throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 		try {

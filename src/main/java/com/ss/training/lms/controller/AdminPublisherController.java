@@ -21,6 +21,10 @@ public class AdminPublisherController {
 	@Autowired
 	AdminPublisherService service;
 
+	/**
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(path = "/lms/admin/publishers/{id}")
 	public ResponseEntity<Publisher> readPublisher(@PathVariable int id) {
 		Publisher publisher = null;

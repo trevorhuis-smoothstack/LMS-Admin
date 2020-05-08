@@ -74,6 +74,11 @@ public class AdminPublisherService {
 		}
 	}
 
+	/**
+	 * @param pubId
+	 * @return
+	 * @throws SQLException
+	 */
 	public Publisher readPublisher(Integer pubId) throws SQLException {
 		Connection conn = null;
 		try {

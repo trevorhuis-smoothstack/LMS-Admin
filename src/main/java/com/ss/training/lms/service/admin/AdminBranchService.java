@@ -78,7 +78,7 @@ public class AdminBranchService {
 		}
 	}
 
-	public LibraryBranch readABranch(Integer branchId) throws SQLException {
+	public LibraryBranch readBranch(Integer branchId) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();

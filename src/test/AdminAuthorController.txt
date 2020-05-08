@@ -1,4 +1,5 @@
-[] Make good request - JSON
-[] Make good request - XML
+[] Make good request - accept anything
+[] Make good request - accept JSON
+[] Make good request - accept XML
 [] Request nonexistent author
 [] Make request when database isn't running

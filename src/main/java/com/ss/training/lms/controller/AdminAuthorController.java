@@ -12,6 +12,6 @@ import com.ss.training.lms.service.admin.AdminAuthorService;
 public class AdminAuthorController {
 
 	@Autowired
-	AdminAuthorService adminAuthorService;
+	AdminAuthorService service;
 
 }

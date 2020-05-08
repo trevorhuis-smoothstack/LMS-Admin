@@ -29,7 +29,7 @@ public class GenreDAO extends BaseDAO<Genre> {
 		return read("SELECT * FROM tbl_genre", null, conn);
 	}
 
-	public List<Genre> readAGenre(Integer genreId, Connection conn) throws SQLException{
+	public List<Genre> readGenre(Integer genreId, Connection conn) throws SQLException{
 		return read("SELECT * FROM tbl_genre WHERE genre_id = ?", new Object[]{ genreId }, conn);
 	}
 

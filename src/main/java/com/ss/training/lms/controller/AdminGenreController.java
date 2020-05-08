@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
+/**
+ * @author Trevor Huis in 't Veld
+ */
 @RestController
 public class AdminGenreController {
 	
@@ -28,15 +30,18 @@ public class AdminGenreController {
 						MediaType.APPLICATION_XML_VALUE,
 						MediaType.APPLICATION_JSON_VALUE
 					})
-	public ResponseEntity<Genre>getGenreById(@PathVariable int genreId) throws SQLException {
+	public ResponseEntity<Genre>getGenreById(@PathVariable int genreId) {
 		Genre genre = null;
+		HttpStatus status = HttpStatus.OK;
 		try {
-			genre= genreService.readAGenre(genreId);
-		} catch (final SQLException e) {
-			e.printStackTrace();
-			return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
+			genre= genreService.readGenre(genreId);
+			if (genre == null) {
+				status = HttpStatus.NOT_FOUND;
+			}
+		} catch (SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-		return new ResponseEntity<Genre>(genre, HttpStatus.OK);
+		return new ResponseEntity<Genre>(genre, status);
 	}
 
 	@RequestMapping(path="/lms/admin/genres", 
@@ -44,17 +49,20 @@ public class AdminGenreController {
 						MediaType.APPLICATION_XML_VALUE,
 						MediaType.APPLICATION_JSON_VALUE
 					})
-	public ResponseEntity<List<Genre>> getAllGenres() throws SQLException {
+	public ResponseEntity<List<Genre>> getAllGenres() {
 		List<Genre> genres = null;
+		HttpStatus status = HttpStatus.OK;
         try {
 			genres= genreService.readAllGenres();
-		} catch (final SQLException e) {
-            e.printStackTrace();
-            return new ResponseEntity<List<Genre>>(genres, HttpStatus.BAD_REQUEST);
+			if (genres == null) {
+				status = HttpStatus.NOT_FOUND;
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-        return new ResponseEntity<List<Genre>>(genres, HttpStatus.OK);
-
+        return new ResponseEntity<List<Genre>>(genres, status);
 	}
+
 	
 	@RequestMapping(path="/lms/admin/genre",
 					method = RequestMethod.POST,
@@ -62,8 +70,17 @@ public class AdminGenreController {
 						MediaType.APPLICATION_JSON_VALUE,
 						MediaType.APPLICATION_XML_VALUE
 					})
-	public void addGenre(@RequestBody Genre genre) throws SQLException {
-		genreService.addAGenre(genre);
+	public ResponseEntity<Genre> addGenre(@RequestBody Genre genre) {
+		if(genre.getGenreName() == null)
+				return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
+		HttpStatus status = HttpStatus.OK;
+        try {
+			genreService.addGenre(genre);
+		} catch (ClassNotFoundException | SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+        return new ResponseEntity<Genre>(genre, status);
+		
 	}
 
 	@RequestMapping(path="/lms/admin/genre",
@@ -72,8 +89,18 @@ public class AdminGenreController {
 						MediaType.APPLICATION_JSON_VALUE,
 						MediaType.APPLICATION_XML_VALUE
 					})
-	public void updateGenre(@RequestBody Genre genre) throws SQLException {
-		genreService.updateAGenre(genre);
+	public ResponseEntity<Genre> updateGenre(@RequestBody Genre genre) {
+		if(genre.getGenreName() == null || genre.getGenreID() == null)
+			return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
+		HttpStatus status = HttpStatus.OK;
+        try {
+			genreService.updateGenre(genre);
+		} catch (ClassNotFoundException | SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+        return new ResponseEntity<Genre>(genre, status);
+		
+		
 	}
 
 	@RequestMapping(path="/lms/admin/genre",
@@ -82,7 +109,15 @@ public class AdminGenreController {
 						MediaType.APPLICATION_JSON_VALUE,
 						MediaType.APPLICATION_XML_VALUE
 					})
-	public void deleteGenre(@RequestBody Genre genre) throws SQLException {
-		genreService.deleteAGenre(genre);
+	public ResponseEntity<Genre> deleteGenre(@RequestBody Genre genre) {
+		if(genre.getGenreName() == null || genre.getGenreID() == null)
+			return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
+		HttpStatus status = HttpStatus.OK;
+        try {
+			genreService.deleteGenre(genre);
+		} catch (ClassNotFoundException | SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+        return new ResponseEntity<Genre>(genre, status);
 	}
 }

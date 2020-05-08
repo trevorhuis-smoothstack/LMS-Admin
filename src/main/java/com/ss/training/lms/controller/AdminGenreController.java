@@ -1,6 +1,7 @@
 package com.ss.training.lms.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.ss.training.lms.entity.Genre;
 import com.ss.training.lms.service.admin.AdminGenreService;
@@ -28,8 +29,31 @@ public class AdminGenreController {
 						MediaType.APPLICATION_JSON_VALUE
 					})
 	public ResponseEntity<Genre>getGenreById(@PathVariable int genreId) throws SQLException {
-		Genre genre= genreService.readAGenre(genreId);
-		return new ResponseEntity<Genre>(genre, HttpStatus.CREATED);
+		Genre genre = null;
+		try {
+			genre= genreService.readAGenre(genreId);
+		} catch (final SQLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Genre>(genre, HttpStatus.OK);
+	}
+
+	@RequestMapping(path="/lms/admin/genres", 
+					produces = {
+						MediaType.APPLICATION_XML_VALUE,
+						MediaType.APPLICATION_JSON_VALUE
+					})
+	public ResponseEntity<List<Genre>> getAllGenres(@PathVariable int genreId) throws SQLException {
+		List<Genre> genres = null;
+        try {
+			genres= genreService.readAllGenres();
+		} catch (final SQLException e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<Genre>>(genres, HttpStatus.BAD_REQUEST);
+		}
+        return new ResponseEntity<List<Genre>>(genres, HttpStatus.OK);
+
 	}
 	
 	@RequestMapping(path="/lms/admin/genre",
@@ -39,8 +63,7 @@ public class AdminGenreController {
 						MediaType.APPLICATION_XML_VALUE
 					})
 	public void addGenre(@RequestBody Genre genre) throws SQLException {
-		Integer pk = genreService.addAGenre(genre);
-		System.out.println(pk);
+		genreService.addAGenre(genre);
 	}
 
 	@RequestMapping(path="/lms/admin/genre",
@@ -62,6 +85,4 @@ public class AdminGenreController {
 	public void deleteGenre(@RequestBody Genre genre) throws SQLException {
 		genreService.deleteAGenre(genre);
 	}
-
-
 }

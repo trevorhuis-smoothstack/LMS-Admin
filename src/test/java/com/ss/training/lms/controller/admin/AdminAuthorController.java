@@ -30,7 +30,6 @@ public class AdminAuthorController {
 		Author author = null;
 		try {
 			author = service.readAuthor(id);
-
 		} catch (ClassNotFoundException | SQLException e) {
 			return new ResponseEntity<Author>(author, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

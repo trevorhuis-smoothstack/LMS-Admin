@@ -54,7 +54,7 @@ public class AdminAuthorService {
 		}
 	}
 
-	public void updateAAuthor(Author author) throws SQLException {
+	public void updateAuthor(Author author) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();

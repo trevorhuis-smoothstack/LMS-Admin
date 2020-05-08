@@ -1,5 +1,9 @@
 readPublisher
-	[] Make good request - accept JSON
-	[] Make good request - accept XML
-	[] Request nonexistent author
-	[] Make request with bad database password
+	[+] Make good request - accept JSON
+		05/08 returns publisher information with status 200 
+	[+] Make good request - accept XML
+		05/08 returns publisher information with status 200
+	[+] Request nonexistent publisher
+		05/08 returns blank reply with status 404
+	[+] Make request with bad database password
+		05/08 returns status 500

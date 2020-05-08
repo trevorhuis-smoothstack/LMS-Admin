@@ -1,4 +1,4 @@
-package com.ss.training.lms.controller.admin;
+package com.ss.training.lms.controller;
 
 import java.sql.SQLException;
 

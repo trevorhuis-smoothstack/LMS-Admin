@@ -70,19 +70,14 @@ public class AdminAuthorService {
 		}
 	}
 
-	public Author readAnAuthor(Integer authorId) throws SQLException {
+	public Author readAuthor(Integer authorId) throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
 			List<Author> authors = authorDAO.readAnAuthor(authorId, conn);
-			if (authors.size() == 0) {
+			if (authors.size() == 0)
 				return null;
-			}
 			return authors.get(0);
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not read the author.");
-			conn.rollback();
-			return null;
 		} finally {
 			if (conn != null) {
 				conn.close();

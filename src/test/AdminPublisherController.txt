@@ -5,5 +5,13 @@ readPublisher
 		05/08 returns publisher information with status 200
 	[+] Request nonexistent publisher
 		05/08 returns blank reply with status 404
-	[+] Make request with bad database password
+	[+] Make request with bad password in application.properties
 		05/08 returns status 500
+
+deletePublisher
+	[+] Make good request
+		05/08 returns 200 & deletes publisher
+	[+] Request deletion of nonexistent publisher
+		05/08 returns 404 & deletes no publishers
+	[+] Make request with bad password in application.properties
+		05/08 returns 500 & deletes no publishers

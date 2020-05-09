@@ -3,8 +3,6 @@ package com.ss.training.lms.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 public class Author implements Serializable{
     
     /**

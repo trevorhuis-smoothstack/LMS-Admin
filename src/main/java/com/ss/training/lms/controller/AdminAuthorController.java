@@ -28,12 +28,12 @@ public class AdminAuthorController {
 	 * @return
 	 */
 	@PostMapping(path = "/lms/admin/author")
-	public ResponseEntity<Author> createAuthor(@RequestBody Author author){
+	public ResponseEntity<Author> createAuthor(@RequestBody Author author) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (author == null || author.getAuthorName() == null || author.getAuthorName().length() > 45)
 			return new ResponseEntity<Author>(author, status);
 		try {
-			service.createAuthor(author);
+			service.createAuthor(author); // this will also set the ID of this author object if successful
 			status = HttpStatus.CREATED;
 		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;

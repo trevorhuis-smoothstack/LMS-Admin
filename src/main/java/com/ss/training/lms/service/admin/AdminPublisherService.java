@@ -84,7 +84,7 @@ public class AdminPublisherService {
 		try {
 			conn = connUtil.getConnection();
 			List<Publisher> publishers = pubDAO.readAPublisher(pubId, conn);
-			if (publishers.size() == 0) 
+			if (publishers.size() == 0)
 				return null;
 			return publishers.get(0);
 		} finally {

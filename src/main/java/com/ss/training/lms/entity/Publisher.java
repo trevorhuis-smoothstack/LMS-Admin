@@ -44,11 +44,11 @@ public class Publisher implements Serializable {
 		return publisherId + ", " + publisherName + ", " + address;
 	}
 
-	public int getPublisherID() {
+	public int getPublisherId() {
 		return publisherId;
 	}
 
-	public void setPublisherID(int publisherId) {
+	public void setPublisherId(int publisherId) {
 		this.publisherId = publisherId;
 	}
 

@@ -45,7 +45,7 @@ public class AdminPublisherService {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
-			bookDAO.deleteBooksByPublisher(publisher.getPublisherID(), conn);
+			bookDAO.deleteBooksByPublisher(publisher.getPublisherId(), conn);
 			pubDAO.deletePublisher(publisher, conn);
 			conn.commit();
 		} catch (ClassNotFoundException | SQLException e) {

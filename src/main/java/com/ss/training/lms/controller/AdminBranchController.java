@@ -25,7 +25,7 @@ public class AdminBranchController {
 	 * @param branch
 	 * @return
 	 */
-	@PutMapping(path = "/lms/admin/publisher")
+	@PutMapping(path = "/lms/admin/branch")
 	public ResponseEntity<LibraryBranch> updateBranch(@RequestBody LibraryBranch branch) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (branch == null || (branch.getBranchName() != null && branch.getBranchName().length() > 45)

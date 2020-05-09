@@ -1,0 +1,7 @@
+updateBranch
+	[] Make good request - send JSON
+	[] Make good request - send XML
+	[] Make request with blank body
+	[] Request to update nonexistent branch
+	[] Request to make name more than 45 characters
+	[] Make request with bad password in application.properties

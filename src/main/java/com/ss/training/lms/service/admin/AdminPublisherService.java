@@ -74,19 +74,19 @@ public class AdminPublisherService {
 		}
 	}
 
-	public Publisher readAPublisher(Integer pubId) throws SQLException {
+	/**
+	 * @param pubId
+	 * @return
+	 * @throws SQLException
+	 */
+	public Publisher readPublisher(Integer pubId) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
 			List<Publisher> publishers = pubDAO.readAPublisher(pubId, conn);
-			if (publishers.size() == 0) {
+			if (publishers.size() == 0) 
 				return null;
-			}
 			return publishers.get(0);
-		} catch (SQLException e) {
-			System.out.println("We could not read the publisher.");
-			conn.rollback();
-			return null;
 		} finally {
 			if (conn != null) {
 				conn.close();

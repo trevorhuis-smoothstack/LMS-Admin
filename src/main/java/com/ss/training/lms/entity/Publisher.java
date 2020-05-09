@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-@Component
 public class Publisher implements Serializable {
 	/**
 	 *

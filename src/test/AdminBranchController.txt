@@ -6,4 +6,4 @@ readBranch
 	[+] Request nonexistent branch
 		05/08 returns blank reply with status 404 
 	[+] Make request with bad password in application.properties
-		05/08 returnss status 500
+		05/08 returns status 500

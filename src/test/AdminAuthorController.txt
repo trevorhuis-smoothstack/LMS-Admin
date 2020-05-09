@@ -11,6 +11,9 @@ readAuthor
 		05/08 returns status 500
 
 deleteAuthor
-	[] Make good request
-	[] Request nonexistent author
-	[] Make request with bad password in application.properties
+	[+] Make good request
+		05/08 returns 200 & deletes author
+	[+] Request nonexistent author
+		05/08 returns 404 & deletes no authors
+	[+] Make request with bad password in application.properties
+		05/08 returns 500 & deletes no authors

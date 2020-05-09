@@ -32,7 +32,7 @@ public class AdminAuthorController {
 		HttpStatus status = HttpStatus.OK;
 		try {
 			author = service.readAuthor(id);
-			if (author == null) // no author with the requested ID exists
+			if (author == null) // no author with the specified ID exists
 				status = HttpStatus.NOT_FOUND;
 		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -42,7 +42,18 @@ public class AdminAuthorController {
 
 	@DeleteMapping(path = "/lms/admin/authors{id}")
 	public ResponseEntity<Author> deleteAuthor(@PathVariable int id) {
-		return null;
+		Author author = null;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			author = service.readAuthor(id);
+			if (author == null) // no author with the specified ID exists
+				status = HttpStatus.NOT_FOUND;
+			else
+				service.deleteAuthor(author);
+		} catch (ClassNotFoundException | SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Author>(author, status);
 	}
 
 }

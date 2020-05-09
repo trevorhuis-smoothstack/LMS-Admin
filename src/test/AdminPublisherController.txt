@@ -9,10 +9,17 @@ readPublisher
 		05/08 returns status 500
 
 updatePublisher
-	[] Make good request - send JSON
-	[] Make good request - send XML
-	[] Make request with blank body
-	[] Request to update nonexistent publisher
-	[] Request to make name null
-	[] Request to make name more than 45 characters
-	[] Make request with bad database password
+	[+] Make good request - send JSON
+		05/09 returns 200 & updates publisher
+	[+] Make good request - send XML
+		05/09 returns 200 & updates publisher
+	[+] Make request with blank body
+		05/09 returns 400
+	[+] Request to update nonexistent publisher
+		05/09 returns 400 & doesn't add publisher
+	[+] Request to make name null
+		50/09 returns 400 & doesn't update publisher
+	[+] Request to make name more than 45 characters
+		05/09 returns 400 & doesn't update publisher
+	[+] Make request with bad database password
+		05/09 returns 500

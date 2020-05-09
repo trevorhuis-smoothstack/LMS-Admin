@@ -1,10 +1,16 @@
 createPublisher
 	[] Make good request - send JSON
+		05/09 returns 201 & creates publisher
 	[] Make good request - send XML
+		05/09 returns 201 & creates publisher
 	[] Make request with blank body
+		05/09 returns 400 & creates no publishers
 	[] Request creation of publisher with no name
+		05/09 returns 400 & creates no publishers
 	[] Request creation of publisher with name longer than 46 characters
+		05/09 returns 400 & creates no publishers
 	[] Make request with bad database password
+		05/09 returns 500 & creates no publishers
 
 readPublisher
 	[+] Make good request - accept JSON

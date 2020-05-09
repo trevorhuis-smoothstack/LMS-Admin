@@ -40,6 +40,10 @@ public class AdminAuthorController {
 		return new ResponseEntity<Author>(author, status);
 	}
 
+	/**
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping(path = "/lms/admin/authors/{id}")
 	public ResponseEntity<Author> deleteAuthor(@PathVariable int id) {
 		Author author = null;

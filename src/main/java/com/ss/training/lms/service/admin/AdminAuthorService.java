@@ -38,6 +38,11 @@ public class AdminAuthorService {
 		}
 	}
 
+	/**
+	 * @param author
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public void deleteAuthor(Author author) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 		boolean success = false;

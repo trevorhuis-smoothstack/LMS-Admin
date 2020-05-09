@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +35,26 @@ public class AdminAuthorController {
 			author = service.readAuthor(id);
 			if (author == null) // no author with the requested ID exists
 				status = HttpStatus.NOT_FOUND;
+		} catch (ClassNotFoundException | SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Author>(author, status);
+	}
+
+	/**
+	 * @param author
+	 * @return
+	 */
+	@PutMapping(path = "/lms/admin/author")
+	public ResponseEntity<Author> updateAuthor(@RequestBody Author author) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		if (author == null || author.getAuthorName() == null || author.getAuthorName().length() > 45)
+			return new ResponseEntity<Author>(author, status);
+		try {
+			if (service.readAuthor(author.getAuthorId()) == null) // no author with the specified ID exists
+				return new ResponseEntity<Author>(author, status);
+			service.updateAuthor(author);
+			status = HttpStatus.OK;
 		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}

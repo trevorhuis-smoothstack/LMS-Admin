@@ -54,6 +54,11 @@ public class AdminAuthorService {
 		}
 	}
 
+	/**
+	 * @param author
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void updateAuthor(Author author) throws ClassNotFoundException, SQLException {
 		boolean success = false;
 		Connection conn = null;

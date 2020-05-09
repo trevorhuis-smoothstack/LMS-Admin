@@ -31,7 +31,8 @@ public class AdminPublisherController {
 	public ResponseEntity<Publisher> createPublisher(@RequestBody Publisher publisher) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (publisher == null || publisher.getPublisherName() == null || publisher.getPublisherName().length() > 45
-				|| publisher.getAddress().length() > 45 || publisher.getPhone().length() > 45)
+				|| (publisher.getAddress() != null && publisher.getAddress().length() > 45)
+				|| (publisher.getPhone() != null && publisher.getPhone().length() > 45))
 			return new ResponseEntity<Publisher>(publisher, status);
 		try {
 			service.createPublisher(publisher); // this will also set the ID of this publisher object if successful

@@ -78,6 +78,11 @@ public class AdminBranchService {
 		}
 	}
 
+	/**
+	 * @param branchId
+	 * @return
+	 * @throws SQLException
+	 */
 	public LibraryBranch readBranch(Integer branchId) throws SQLException {
 		Connection conn = null;
 		try {

@@ -21,6 +21,10 @@ public class AdminBranchController {
 	@Autowired
 	AdminBranchService service;
 
+	/**
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(path = "/lms/admin/branches/{id}")
 	public ResponseEntity<LibraryBranch> readBranch(@PathVariable int id) {
 		LibraryBranch branch = null;

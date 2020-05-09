@@ -7,5 +7,21 @@ readAuthor
 		05/08 returns author info with status 200
 	[+] Request nonexistent author
 		05/08 returns blank reply with status 404
-	[+] Make request with bad database password
+	[+] Make request with bad password in application.properties
 		05/08 returns status 500
+
+updateAuthor
+	[+] Make good request - send JSON
+		05/09 updates author & returns 200
+	[+] Make good request - send XML
+		05/09 updates author & returns 200
+	[+] Make request with blank body
+		05/09 returns 400
+	[+] Request to update nonexistent author
+		05/09 returns 400
+	[+] Make request with no authorName
+		05/09 returns 400, author not modified
+	[+] Request to make name more than 45 characters
+		05/09 returns 400, author not modified
+	[+] Make request with bad password in application.properties
+		05/09 returns 500, author not modified

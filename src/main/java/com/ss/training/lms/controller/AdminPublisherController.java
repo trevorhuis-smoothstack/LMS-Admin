@@ -53,7 +53,7 @@ public class AdminPublisherController {
 				|| (publisher.getPhone() != null && publisher.getPhone().length() > 45))
 			return new ResponseEntity<Publisher>(publisher, status);
 		try {
-			if (service.readPublisher(publisher.getPublisherID()) == null) // no publisher with the specified ID exists
+			if (service.readPublisher(publisher.getPublisherId()) == null) // no publisher with the specified ID exists
 				return new ResponseEntity<Publisher>(publisher, status);
 			service.updatePublisher(publisher);
 			status = HttpStatus.OK;

@@ -7,3 +7,12 @@ readPublisher
 		05/08 returns blank reply with status 404
 	[+] Make request with bad password in application.properties
 		05/08 returns status 500
+
+updatePublisher
+	[] Make good request - send JSON
+	[] Make good request - send XML
+	[] Make request with blank body
+	[] Request to update nonexistent publisher
+	[] Request to make name null
+	[] Request to make name more than 45 characters
+	[] Make request with bad database password

@@ -1,3 +1,17 @@
+createAuthor
+	[+] Make good request - send JSON
+		05/09 returns 201 & creates author
+	[+] Make good request - send XML
+		05/09 returns 201 & creates author
+	[+] Make request with blank body
+		05/09 returns 400 & creates no authors
+	[+] Request creation of author with no name
+		05/09 returns 400 & creates no authors
+	[+] Request creation of author with name longer than 46 characters
+		05/09 returns 400 & creates no authors
+	[+] Make request with bad password in application.properties
+		05/09 returns 500 & creates no authors
+
 readAuthor
 	[+] Make good request - accept anything
 		05/08 returns author info with status 200

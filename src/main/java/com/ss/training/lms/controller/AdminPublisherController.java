@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +36,28 @@ public class AdminPublisherController {
 			if (publisher == null) // no publisher with the requested ID exists
 				status = HttpStatus.NOT_FOUND;
 		} catch (SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Publisher>(publisher, status);
+	}
+
+	/**
+	 * @param publisher
+	 * @return
+	 */
+	@PutMapping(path = "/lms/admin/publisher")
+	public ResponseEntity<Publisher> updatePublisher(@RequestBody Publisher publisher) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		if (publisher == null || publisher.getPublisherName() == null || publisher.getPublisherName().length() > 45
+				|| (publisher.getAddress() != null && publisher.getAddress().length() > 45)
+				|| (publisher.getPhone() != null && publisher.getPhone().length() > 45))
+			return new ResponseEntity<Publisher>(publisher, status);
+		try {
+			if (service.readPublisher(publisher.getPublisherID()) == null) // no publisher with the specified ID exists
+				return new ResponseEntity<Publisher>(publisher, status);
+			service.updatePublisher(publisher);
+			status = HttpStatus.OK;
+		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Publisher>(publisher, status);

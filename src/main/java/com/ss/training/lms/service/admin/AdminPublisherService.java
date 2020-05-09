@@ -58,16 +58,23 @@ public class AdminPublisherService {
 		}
 	}
 
-	public void updateAPublisher(Publisher publisher) throws SQLException {
+	/**
+	 * @param publisher
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void updatePublisher(Publisher publisher) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
 			pubDAO.updatePublisher(publisher, conn);
-			conn.commit();
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not update that publisher.");
-			conn.rollback();
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}

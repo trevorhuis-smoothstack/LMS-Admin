@@ -1,0 +1,7 @@
+deleteBranch
+	[+] Make good request
+		05/08 returns 200 & deletes branch
+	[+] Request deletion of nonexistent branch
+		05/08 returns 404 & deletes no branches
+	[+] Make request with bad password in application.properties
+		05/08 returns 500 & deletes no branches

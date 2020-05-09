@@ -1,3 +1,11 @@
+createPublisher
+	[] Make good request - send JSON
+	[] Make good request - send XML
+	[] Make request with blank body
+	[] Request creation of publisher with no name
+	[] Request creation of publisher with name longer than 46 characters
+	[] Make request with bad database password
+
 readPublisher
 	[+] Make good request - accept JSON
 		05/08 returns publisher information with status 200 

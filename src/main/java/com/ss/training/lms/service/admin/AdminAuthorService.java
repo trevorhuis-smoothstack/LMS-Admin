@@ -13,12 +13,12 @@ import com.ss.training.lms.jdbc.ConnectionUtil;
 
 @Component
 public class AdminAuthorService {
-	
+
 	@Autowired
 	ConnectionUtil connUtil;
 	@Autowired
 	AuthorDAO authorDAO;
-	
+
 	public Integer addAuthor(Author author) throws SQLException {
 		Connection conn = null;
 		try {
@@ -54,7 +54,7 @@ public class AdminAuthorService {
 		}
 	}
 
-	public void updateAAuthor(Author author) throws SQLException {
+	public void updateAuthor(Author author) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();

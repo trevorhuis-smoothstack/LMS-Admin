@@ -54,16 +54,18 @@ public class AdminAuthorService {
 		}
 	}
 
-	public void updateAuthor(Author author) throws SQLException {
+	public void updateAuthor(Author author) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
 			authorDAO.updateAuthor(author, conn);
-			conn.commit();
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not update that author.");
-			conn.rollback();
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}

@@ -1,0 +1,6 @@
+createBranch
+	[] Make good request - send JSON
+	[] Make good request - send XML
+	[] Make request with blank body
+	[] Request creation of branch with name longer than 46 characters
+	[] Make request with bad database password

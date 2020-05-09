@@ -25,19 +25,25 @@ public class AdminBranchService {
 	@Autowired
 	BookLoanDAO loanDAO;
 
-	public Integer addABranch(LibraryBranch branch) throws SQLException {
+	/**
+	 * @param branch
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void createBranch(LibraryBranch branch) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
-			Integer primaryKey = branchDAO.addBranch(branch, conn);
-			conn.commit();
-			return primaryKey;
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not add that branch.");
-			e.printStackTrace();
-			conn.rollback();
-			return 0;
+			// this will also set the branch ID in the calling context, since objects are
+			// passed by reference
+			branch.setBranchId(branchDAO.addBranch(branch, conn));
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}

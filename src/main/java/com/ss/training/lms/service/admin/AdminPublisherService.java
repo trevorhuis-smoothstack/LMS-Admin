@@ -41,7 +41,7 @@ public class AdminPublisherService {
 		}
 	}
 
-	public void deleteAPublisher(Publisher publisher) throws SQLException {
+	public void deletePublisher(Publisher publisher) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
@@ -84,7 +84,7 @@ public class AdminPublisherService {
 		try {
 			conn = connUtil.getConnection();
 			List<Publisher> publishers = pubDAO.readAPublisher(pubId, conn);
-			if (publishers.size() == 0) 
+			if (publishers.size() == 0)
 				return null;
 			return publishers.get(0);
 		} finally {

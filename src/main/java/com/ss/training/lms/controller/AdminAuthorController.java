@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,8 +52,28 @@ public class AdminAuthorController {
 		HttpStatus status = HttpStatus.OK;
 		try {
 			author = service.readAuthor(id);
-			if (author == null) // no author with the requested ID exists
+			if (author == null) // no author with the specified ID exists
 				status = HttpStatus.NOT_FOUND;
+		} catch (ClassNotFoundException | SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Author>(author, status);
+	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping(path = "/lms/admin/authors/{id}")
+	public ResponseEntity<Author> deleteAuthor(@PathVariable int id) {
+		Author author = null;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			author = service.readAuthor(id);
+			if (author == null) // no author with the specified ID exists
+				status = HttpStatus.NOT_FOUND;
+			else
+				service.deleteAuthor(author);
 		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}

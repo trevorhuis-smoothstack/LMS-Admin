@@ -43,16 +43,23 @@ public class AdminAuthorService {
 		}
 	}
 
-	public void deleteAuthor(Author author) throws SQLException {
+	/**
+	 * @param author
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public void deleteAuthor(Author author) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
+		boolean success = false;
 		try {
 			conn = connUtil.getConnection();
 			authorDAO.deleteAuthor(author, conn);
-			conn.commit();
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not delete that author.");
-			conn.rollback();
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}

@@ -23,7 +23,7 @@ public class AdminBranchController {
 	 * @return
 	 */
 	@PostMapping(path = "/lms/admin/branch")
-	public ResponseEntity<LibraryBranch> createLibraryBranch(@RequestBody LibraryBranch branch) {
+	public ResponseEntity<LibraryBranch> createBranch(@RequestBody LibraryBranch branch) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (branch == null || (branch.getBranchName() != null && branch.getBranchName().length() > 45)
 				|| (branch.getBranchAddress() != null && branch.getBranchAddress().length() > 45))

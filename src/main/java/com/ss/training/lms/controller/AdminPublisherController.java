@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,9 +54,29 @@ public class AdminPublisherController {
 		HttpStatus status = HttpStatus.OK;
 		try {
 			publisher = service.readPublisher(id);
-			if (publisher == null) // no publisher with the requested ID exists
+			if (publisher == null) // no publisher with the specified ID exists
 				status = HttpStatus.NOT_FOUND;
 		} catch (SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Publisher>(publisher, status);
+	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping(path = "/lms/admin/publishers/{id}")
+	public ResponseEntity<Publisher> deletePublisher(@PathVariable int id) {
+		Publisher publisher = null;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			publisher = service.readPublisher(id);
+			if (publisher == null) // no publisher with the specified ID exists
+				status = HttpStatus.NOT_FOUND;
+			else
+				service.deletePublisher(publisher);
+		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Publisher>(publisher, status);

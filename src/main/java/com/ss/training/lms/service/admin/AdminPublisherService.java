@@ -47,20 +47,26 @@ public class AdminPublisherService {
 		}
 	}
 
-	public void deleteAPublisher(Publisher publisher) throws SQLException {
+	/**
+	 * @param publisher
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void deletePublisher(Publisher publisher) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
 			bookDAO.deleteBooksByPublisher(publisher.getPublisherId(), conn);
 			pubDAO.deletePublisher(publisher, conn);
-			conn.commit();
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not delete that publisher.");
-			conn.rollback();
+			success = true;
 		} finally {
-			if (conn != null) {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
+			if (conn != null)
 				conn.close();
-			}
 		}
 	}
 

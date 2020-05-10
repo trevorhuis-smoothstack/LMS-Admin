@@ -22,19 +22,25 @@ public class AdminPublisherService {
 	@Autowired
 	BookDAO bookDAO;
 
-	public Integer addAPublisher(Publisher publisher) throws SQLException {
+	/**
+	 * @param publisher
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void createPublisher(Publisher publisher) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
-			Integer primaryKey = pubDAO.addPublisher(publisher, conn);
-			conn.commit();
-			return primaryKey;
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not add that publisher.");
-			e.printStackTrace();
-			conn.rollback();
-			return 0;
+			// this will set the publisher ID in the calling class since objects are passed
+			// by reference
+			publisher.setPublisherID(pubDAO.addPublisher(publisher, conn));
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}

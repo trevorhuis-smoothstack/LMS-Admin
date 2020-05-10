@@ -9,3 +9,13 @@ readAuthor
 		05/08 returns blank reply with status 404
 	[+] Make request with bad password in application.properties
 		05/08 returns status 500
+
+readAuthors
+	[+] Accept JSON
+		05/09 returns 200 & lists all authors
+	[+] Accept XML
+		05/09 returns 200 & lists all authors
+	[+] No records in table
+		05/09 returns 204 & empty body
+	[+] Bad password in application.properties
+		05/09 returns 500

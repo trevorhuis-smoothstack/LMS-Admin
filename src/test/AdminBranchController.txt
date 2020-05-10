@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 createBranch
 	[+] Make good request - send JSON
 		05/09 returns 201 & creates branch
@@ -17,3 +18,14 @@ deleteBranch
 		05/08 returns 404 & deletes no branches
 	[+] Make request with bad password in application.properties
 		05/08 returns 500 & deletes no branches
+=======
+readBranch
+	[+] Make good request - accept JSON
+		05/08 returns branch info with status 200
+	[+] Make good request - accept XML
+		05/08 returns branch info with status 200
+	[+] Request nonexistent branch
+		05/08 returns blank reply with status 404 
+	[+] Make request with bad password in application.properties
+		05/08 returns status 500
+>>>>>>> refs/heads/dev-jo-read-branch

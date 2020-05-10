@@ -34,7 +34,7 @@ public class AdminPublisherService {
 			conn = connUtil.getConnection();
 			// this will set the publisher ID in the calling class since objects are passed
 			// by reference
-			publisher.setPublisherID(pubDAO.addPublisher(publisher, conn));
+			publisher.setPublisherId(pubDAO.addPublisher(publisher, conn));
 			success = true;
 		} finally {
 			if (success)

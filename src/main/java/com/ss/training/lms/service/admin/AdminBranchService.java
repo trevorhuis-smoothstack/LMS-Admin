@@ -91,6 +91,11 @@ public class AdminBranchService {
 		}
 	}
 
+	/**
+	 * @param branchId
+	 * @return
+	 * @throws SQLException
+	 */
 	public LibraryBranch readBranch(Integer branchId) throws SQLException {
 		Connection conn = null;
 		try {
@@ -100,10 +105,6 @@ public class AdminBranchService {
 				return null;
 			}
 			return branches.get(0);
-		} catch (SQLException e) {
-			System.out.println("We could not read the branch.");
-			conn.rollback();
-			return null;
 		} finally {
 			if (conn != null) {
 				conn.close();

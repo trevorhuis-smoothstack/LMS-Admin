@@ -7,5 +7,5 @@ createBranch
 		returns 400 & creates no branches
 	[+] Request creation of branch with name longer than 46 characters
 		returns 400 & creates no branches
-	[+] Make request with bad database password
+	[+] Make request with bad password in application.properties
 		returns 500 & creates no branches

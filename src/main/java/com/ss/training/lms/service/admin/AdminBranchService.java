@@ -75,16 +75,23 @@ public class AdminBranchService {
 		}
 	}
 
-	public void updateABranch(LibraryBranch branch) throws SQLException {
+	/**
+	 * @param branch
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void updateBranch(LibraryBranch branch) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
 			branchDAO.updateBranch(branch, conn);
-			conn.commit();
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not update that branch.");
-			conn.rollback();
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}

@@ -37,3 +37,17 @@ readBranches
 		05/09 returns 204 with empty body
 	[+] Bad password in application.properties
 		05/09 returns 500
+
+updateBranch
+	[+] Make good request - send JSON
+		05/09 returns 200 & updates branch
+	[+] Make good request - send XML
+		05/09 returns 200 & updates branch
+	[+] Make request with blank body
+		05/09 returns 400
+	[+] Request to update nonexistent branch
+		05/09 returns 400 & doesn't create branch
+	[+] Request to make name more than 45 characters
+		05/09 returns 400 & doesn't modify branch
+	[+] Make request with bad password in application.properties
+		05/09 returns 500

@@ -39,3 +39,19 @@ readPublishers
 		05/09 returns 204 with empty body
 	[+] Bad password in application.properties
 		05/09 returns 500
+
+updatePublisher
+	[+] Make good request - send JSON
+		05/09 returns 200 & updates publisher
+	[+] Make good request - send XML
+		05/09 returns 200 & updates publisher
+	[+] Make request with blank body
+		05/09 returns 400
+	[+] Request to update nonexistent publisher
+		05/09 returns 400 & doesn't add publisher
+	[+] Request to make name null
+		50/09 returns 400 & doesn't update publisher
+	[+] Request to make name more than 45 characters
+		05/09 returns 400 & doesn't update publisher
+	[+] Make request with bad database password
+		05/09 returns 500

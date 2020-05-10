@@ -62,7 +62,7 @@ public class AdminPublisherController {
 		}
 		return new ResponseEntity<Publisher>(publisher, status);
 	}
-	
+
 	/**
 	 * @return
 	 */

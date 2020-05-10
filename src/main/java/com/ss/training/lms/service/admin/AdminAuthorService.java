@@ -91,7 +91,12 @@ public class AdminAuthorService {
 		}
 	}
 
-	public List<Author> readAllAuthors() throws SQLException {
+	/**
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public List<Author> readAuthors() throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
@@ -100,10 +105,6 @@ public class AdminAuthorService {
 				return null;
 			}
 			return authors;
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not read the authors.");
-			conn.rollback();
-			return null;
 		} finally {
 			if (conn != null) {
 				conn.close();

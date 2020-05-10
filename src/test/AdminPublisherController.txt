@@ -29,3 +29,13 @@ deletePublisher
 		05/08 returns 404 & deletes no publishers
 	[+] Make request with bad password in application.properties
 		05/08 returns 500 & deletes no publishers
+
+readPublishers
+	[+] Accept JSON
+		05/09 returns 200 & lists all publishers
+	[+] Accept XML
+		05/09 returns 200 & lists all publishers
+	[+] No records in table
+		05/09 returns 204 with empty body
+	[+] Bad password in application.properties
+		05/09 returns 500

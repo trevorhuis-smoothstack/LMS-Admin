@@ -106,7 +106,12 @@ public class AdminPublisherService {
 		}
 	}
 
-	public List<Publisher> readAllPublishers() throws SQLException {
+	/**
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public List<Publisher> readPublishers() throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
@@ -115,10 +120,6 @@ public class AdminPublisherService {
 				return null;
 			}
 			return publishers;
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not read the publishers.");
-			conn.rollback();
-			return null;
 		} finally {
 			if (conn != null) {
 				conn.close();

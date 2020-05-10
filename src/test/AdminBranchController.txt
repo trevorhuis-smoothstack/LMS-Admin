@@ -9,3 +9,11 @@ createBranch
 		05/09 returns 400 & creates no branches
 	[+] Make request with bad password in application.properties
 		05/09 returns 500 & creates no branches
+
+deleteBranch
+	[+] Make good request
+		05/08 returns 200 & deletes branch
+	[+] Request deletion of nonexistent branch
+		05/08 returns 404 & deletes no branches
+	[+] Make request with bad password in application.properties
+		05/08 returns 500 & deletes no branches

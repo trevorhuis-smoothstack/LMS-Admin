@@ -50,18 +50,25 @@ public class AdminBranchService {
 		}
 	}
 
-	public void deleteABranch(LibraryBranch branch) throws SQLException {
+	/**
+	 * @param branch
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void deleteBranch(LibraryBranch branch) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
 			loanDAO.deleteBookLoansByBranch(branch.getBranchId(), conn);
 			copiesDAO.deleteBookLoansByBranch(branch.getBranchId(), conn);
 			branchDAO.deleteBranch(branch, conn);
-			conn.commit();
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not delete that branch.");
-			conn.rollback();
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}
@@ -84,7 +91,7 @@ public class AdminBranchService {
 		}
 	}
 
-	public LibraryBranch readABranch(Integer branchId) throws SQLException {
+	public LibraryBranch readBranch(Integer branchId) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();

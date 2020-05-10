@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ss.training.lms.entity.LibraryBranch;
@@ -39,5 +41,25 @@ public class AdminBranchController {
 
 	@Autowired
 	AdminBranchService service;
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping(path = "/lms/admin/branches/{id}")
+	public ResponseEntity<LibraryBranch> deleteBranch(@PathVariable int id) {
+		LibraryBranch branch = null;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			branch = service.readBranch(id);
+			if (branch == null) // no branch with the specified ID exists
+				status = HttpStatus.NOT_FOUND;
+			else
+				service.deleteBranch(branch);
+		} catch (ClassNotFoundException | SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<LibraryBranch>(branch, status);
+	}
 
 }

@@ -9,7 +9,11 @@ readPublisher
 		05/08 returns status 500
 
 readPublishers
-	[] Accept JSON
-	[] Accept XML
-	[] No records in table
-	[] Bad password in application.properties
+	[+] Accept JSON
+		05/09 returns 200 & lists all publishers
+	[+] Accept XML
+		05/09 returns 200 & lists all publishers
+	[+] No records in table
+		05/09 returns 204 with empty body
+	[+] Bad password in application.properties
+		05/09 returns 500

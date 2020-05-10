@@ -7,3 +7,9 @@ readPublisher
 		05/08 returns blank reply with status 404
 	[+] Make request with bad password in application.properties
 		05/08 returns status 500
+
+readPublishers
+	[] Accept JSON
+	[] Accept XML
+	[] No records in table
+	[] Bad password in application.properties

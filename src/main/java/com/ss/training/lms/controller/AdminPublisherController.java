@@ -43,6 +43,7 @@ public class AdminPublisherController {
 	/**
 	 * @return
 	 */
+	@RequestMapping(path = "/lms/admin/publisher")
 	public ResponseEntity<List<Publisher>> readPublishers() {
 		List<Publisher> publishers = null;
 		HttpStatus status = HttpStatus.OK;

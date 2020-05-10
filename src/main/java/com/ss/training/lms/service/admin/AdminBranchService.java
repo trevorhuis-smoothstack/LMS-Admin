@@ -98,19 +98,20 @@ public class AdminBranchService {
 		}
 	}
 
-	public List<LibraryBranch> readAllBranches() throws SQLException {
+	/**
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public List<LibraryBranch> readBranches() throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
-			List<LibraryBranch> branches = branchDAO.readAllBranches(conn);
-			if (branches.size() == 0) {
+			List<LibraryBranch> authors = branchDAO.readAllBranches(conn);
+			if (authors.size() == 0) {
 				return null;
 			}
-			return branches;
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not read the branch.");
-			conn.rollback();
-			return null;
+			return authors;
 		} finally {
 			if (conn != null) {
 				conn.close();

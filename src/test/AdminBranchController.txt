@@ -1,0 +1,11 @@
+createBranch
+	[+] Make good request - send JSON
+		05/09 returns 201 & creates branch
+	[+] Make good request - send XML
+		05/09 returns 201 & creates branch
+	[+] Make request with blank body
+		05/09 returns 400 & creates no branches
+	[+] Request creation of branch with name longer than 46 characters
+		05/09 returns 400 & creates no branches
+	[+] Make request with bad password in application.properties
+		05/09 returns 500 & creates no branches

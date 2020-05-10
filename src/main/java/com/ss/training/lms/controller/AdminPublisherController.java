@@ -1,6 +1,7 @@
 package com.ss.training.lms.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,22 @@ public class AdminPublisherController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Publisher>(publisher, status);
+	}
+	
+	/**
+	 * @return
+	 */
+	public ResponseEntity<List<Publisher>> readPublishers() {
+		List<Publisher> publishers = null;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			publishers = service.readPublishers();
+			if (publishers == null) // no publishers exist in the database
+				status = HttpStatus.NO_CONTENT;
+		} catch (ClassNotFoundException | SQLException e) {
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<List<Publisher>>(publishers, status);
 	}
 
 }

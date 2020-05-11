@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GenreDAO extends BaseDAO<Genre> {
 
-    public Integer addGenre(Genre genre, Connection conn) throws ClassNotFoundException, SQLException {
+    public Integer createGenre(Genre genre, Connection conn) throws ClassNotFoundException, SQLException {
 		return saveWithPK("INSERT INTO tbl_genre (genre_name) VALUES (?)", new Object[] {genre.getGenreName()}, conn);
 	}
 

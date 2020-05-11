@@ -10,27 +10,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Trevor Huis in 't Veld
  */
 @RestController
+@RequestMapping("/lms/admin/genre")
 public class AdminGenreController {
 	
 	@Autowired
 	AdminGenreService genreService;
 	
-	@RequestMapping(path="/lms/admin/genre/{genreId}", 
+	/**
+	 * 
+	 * @param genreId
+	 * @return
+	 */
+	@GetMapping(path="/{genreId}", 
 					produces = {
 						MediaType.APPLICATION_XML_VALUE,
 						MediaType.APPLICATION_JSON_VALUE
 					})
-	public ResponseEntity<Genre>getGenreById(@PathVariable int genreId) {
+	public ResponseEntity<Genre>readGenre(@PathVariable int genreId) {
 		Genre genre = null;
 		HttpStatus status = HttpStatus.OK;
 		try {
@@ -44,18 +53,21 @@ public class AdminGenreController {
 		return new ResponseEntity<Genre>(genre, status);
 	}
 
-	@RequestMapping(path="/lms/admin/genres", 
-					produces = {
+	/**
+	 * 
+	 * @return
+	 */
+	@GetMapping(produces = {
 						MediaType.APPLICATION_XML_VALUE,
 						MediaType.APPLICATION_JSON_VALUE
 					})
-	public ResponseEntity<List<Genre>> getAllGenres() {
+	public ResponseEntity<List<Genre>> readGenres() {
 		List<Genre> genres = null;
 		HttpStatus status = HttpStatus.OK;
         try {
 			genres= genreService.readAllGenres();
 			if (genres == null) {
-				status = HttpStatus.NOT_FOUND;
+				status = HttpStatus.NO_CONTENT;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -63,19 +75,22 @@ public class AdminGenreController {
         return new ResponseEntity<List<Genre>>(genres, status);
 	}
 
-	
-	@RequestMapping(path="/lms/admin/genre",
-					method = RequestMethod.POST,
-					consumes = {
+	/**
+	 * 
+	 * @param genre
+	 * @return
+	 */
+	@PostMapping(consumes = {
 						MediaType.APPLICATION_JSON_VALUE,
 						MediaType.APPLICATION_XML_VALUE
 					})
-	public ResponseEntity<Genre> addGenre(@RequestBody Genre genre) {
-		if(genre.getGenreName() == null)
+	public ResponseEntity<Genre> createGenre(@RequestBody Genre genre) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		if(genre == null || genre.getGenreName().length() > 45)
 				return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
-		HttpStatus status = HttpStatus.OK;
         try {
-			genreService.addGenre(genre);
+			genreService.createGenre(genre);
+			status = HttpStatus.CREATED;
 		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
@@ -83,38 +98,49 @@ public class AdminGenreController {
 		
 	}
 
-	@RequestMapping(path="/lms/admin/genre",
-					method = RequestMethod.PUT,
-					consumes = {
+	/**
+	 * 
+	 * @param genre
+	 * @return
+	 */
+	@PutMapping(consumes = {
 						MediaType.APPLICATION_JSON_VALUE,
 						MediaType.APPLICATION_XML_VALUE
 					})
 	public ResponseEntity<Genre> updateGenre(@RequestBody Genre genre) {
-		if(genre.getGenreName() == null || genre.getGenreID() == null)
-			return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
-		HttpStatus status = HttpStatus.OK;
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		if(genre == null || genre.getGenreID() == null || genre.getGenreName().length() > 45)
+			return new ResponseEntity<Genre>(genre, status);
         try {
+			if(genreService.readGenre(genre.getGenreID()) == null)
+				return new ResponseEntity<Genre>(genre, HttpStatus.NOT_FOUND);
 			genreService.updateGenre(genre);
+			status = HttpStatus.CREATED;
 		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
         return new ResponseEntity<Genre>(genre, status);
-		
-		
 	}
 
-	@RequestMapping(path="/lms/admin/genre",
-					method = RequestMethod.DELETE,
-					consumes = {
-						MediaType.APPLICATION_JSON_VALUE,
-						MediaType.APPLICATION_XML_VALUE
+	/**
+	 * 
+	 * @param genre
+	 * @return
+	 */
+	@DeleteMapping(path="/{genreId}", 
+					produces = {
+						MediaType.APPLICATION_XML_VALUE,
+						MediaType.APPLICATION_JSON_VALUE
 					})
-	public ResponseEntity<Genre> deleteGenre(@RequestBody Genre genre) {
-		if(genre.getGenreName() == null || genre.getGenreID() == null)
-			return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
+	public ResponseEntity<Genre> deleteGenre(@PathVariable int genreId) {
+		Genre genre = null;
 		HttpStatus status = HttpStatus.OK;
         try {
-			genreService.deleteGenre(genre);
+			genre= genreService.readGenre(genreId);
+			if(genre == null)
+				status = HttpStatus.NOT_FOUND;
+			else
+				genreService.deleteGenre(genre);
 		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}

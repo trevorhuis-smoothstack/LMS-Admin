@@ -12,11 +12,9 @@ import java.util.List;
 import com.ss.training.lms.dao.BookAuthorDAO;
 import com.ss.training.lms.dao.BookDAO;
 import com.ss.training.lms.dao.BookGenreDAO;
-import com.ss.training.lms.entity.Author;
 import com.ss.training.lms.entity.Book;
 import com.ss.training.lms.entity.BookAuthor;
 import com.ss.training.lms.entity.BookGenre;
-import com.ss.training.lms.entity.Genre;
 
 /**
  * @author Trevor Huis in 't Veld

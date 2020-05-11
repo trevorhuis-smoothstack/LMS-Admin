@@ -3,8 +3,6 @@ package com.ss.training.lms.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 public class Publisher implements Serializable {
 	/**
 	 *
@@ -44,11 +42,11 @@ public class Publisher implements Serializable {
 		return publisherId + ", " + publisherName + ", " + address;
 	}
 
-	public int getPublisherID() {
+	public int getPublisherId() {
 		return publisherId;
 	}
 
-	public void setPublisherID(int publisherId) {
+	public void setPublisherId(int publisherId) {
 		this.publisherId = publisherId;
 	}
 

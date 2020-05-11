@@ -20,12 +20,12 @@ public class PublisherDAO extends BaseDAO<Publisher> {
 
 	public void updatePublisher(Publisher publisher, Connection conn) throws ClassNotFoundException, SQLException {
 		save("UPDATE tbl_publisher SET publisherName = ?, publisherAddress = ? WHERE publisherId = ?",
-				new Object[] { publisher.getPublisherName(), publisher.getAddress(), publisher.getPublisherID() },
+				new Object[] { publisher.getPublisherName(), publisher.getAddress(), publisher.getPublisherId() },
 				conn);
 	}
 
 	public void deletePublisher(Publisher publisher, Connection conn) throws ClassNotFoundException, SQLException {
-		save("DELETE FROM tbl_publisher WHERE publisherId = ?", new Object[] { publisher.getPublisherID() }, conn);
+		save("DELETE FROM tbl_publisher WHERE publisherId = ?", new Object[] { publisher.getPublisherId() }, conn);
 	}
 
 	public List<Publisher> readAllPublishers(Connection conn) throws ClassNotFoundException, SQLException {
@@ -41,7 +41,7 @@ public class PublisherDAO extends BaseDAO<Publisher> {
 		List<Publisher> publisheres = new ArrayList<>();
 		while (rs.next()) {
 			Publisher publisher = new Publisher();
-			publisher.setPublisherID(rs.getInt("publisherId"));
+			publisher.setPublisherId(rs.getInt("publisherId"));
 			publisher.setPublisherName(rs.getString("publisherName"));
 			publisher.setAddress(rs.getString("publisherAddress"));
 			publisheres.add(publisher);

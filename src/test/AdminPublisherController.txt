@@ -1,3 +1,17 @@
+createPublisher
+	[+] Make good request - send JSON
+		05/09 returns 201 & creates publisher
+	[+] Make good request - send XML
+		05/09 returns 201 & creates publisher
+	[+] Make request with blank body
+		05/09 returns 400 & creates no publishers
+	[+] Request creation of publisher with no name
+		05/09 returns 400 & creates no publishers
+	[+] Request creation of publisher with name longer than 46 characters
+		05/09 returns 400 & creates no publishers
+	[+] Make request with bad database password
+		05/09 returns 500 & creates no publishers
+
 readPublisher
 	[+] Make good request - accept JSON
 		05/08 returns publisher information with status 200 
@@ -5,5 +19,39 @@ readPublisher
 		05/08 returns publisher information with status 200
 	[+] Request nonexistent publisher
 		05/08 returns blank reply with status 404
-	[+] Make request with bad database password
+	[+] Make request with bad password in application.properties
 		05/08 returns status 500
+
+deletePublisher
+	[+] Make good request
+		05/08 returns 200 & deletes publisher
+	[+] Request deletion of nonexistent publisher
+		05/08 returns 404 & deletes no publishers
+	[+] Make request with bad password in application.properties
+		05/08 returns 500 & deletes no publishers
+
+readPublishers
+	[+] Accept JSON
+		05/09 returns 200 & lists all publishers
+	[+] Accept XML
+		05/09 returns 200 & lists all publishers
+	[+] No records in table
+		05/09 returns 204 with empty body
+	[+] Bad password in application.properties
+		05/09 returns 500
+
+updatePublisher
+	[+] Make good request - send JSON
+		05/09 returns 200 & updates publisher
+	[+] Make good request - send XML
+		05/09 returns 200 & updates publisher
+	[+] Make request with blank body
+		05/09 returns 400
+	[+] Request to update nonexistent publisher
+		05/09 returns 400 & doesn't add publisher
+	[+] Request to make name null
+		50/09 returns 400 & doesn't update publisher
+	[+] Request to make name more than 45 characters
+		05/09 returns 400 & doesn't update publisher
+	[+] Make request with bad database password
+		05/09 returns 500

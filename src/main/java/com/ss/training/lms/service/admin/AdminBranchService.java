@@ -25,60 +25,85 @@ public class AdminBranchService {
 	@Autowired
 	BookLoanDAO loanDAO;
 
-	public Integer addABranch(LibraryBranch branch) throws SQLException {
+	/**
+	 * @param branch
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void createBranch(LibraryBranch branch) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
-			Integer primaryKey = branchDAO.addBranch(branch, conn);
-			conn.commit();
-			return primaryKey;
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not add that branch.");
-			e.printStackTrace();
-			conn.rollback();
-			return 0;
+			// this will also set the branch ID in the calling context, since objects are
+			// passed by reference
+			branch.setBranchId(branchDAO.addBranch(branch, conn));
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}
 		}
 	}
 
-	public void deleteABranch(LibraryBranch branch) throws SQLException {
+	/**
+	 * @param branch
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void deleteBranch(LibraryBranch branch) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
 			loanDAO.deleteBookLoansByBranch(branch.getBranchId(), conn);
 			copiesDAO.deleteBookLoansByBranch(branch.getBranchId(), conn);
 			branchDAO.deleteBranch(branch, conn);
-			conn.commit();
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not delete that branch.");
-			conn.rollback();
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}
 		}
 	}
 
-	public void updateABranch(LibraryBranch branch) throws SQLException {
+	/**
+	 * @param branch
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void updateBranch(LibraryBranch branch) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
 			branchDAO.updateBranch(branch, conn);
-			conn.commit();
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not update that branch.");
-			conn.rollback();
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}
 		}
 	}
 
-	public LibraryBranch readABranch(Integer branchId) throws SQLException {
+	/**
+	 * @param branchId
+	 * @return
+	 * @throws SQLException
+	 */
+	public LibraryBranch readBranch(Integer branchId) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
@@ -87,10 +112,6 @@ public class AdminBranchService {
 				return null;
 			}
 			return branches.get(0);
-		} catch (SQLException e) {
-			System.out.println("We could not read the branch.");
-			conn.rollback();
-			return null;
 		} finally {
 			if (conn != null) {
 				conn.close();
@@ -98,19 +119,20 @@ public class AdminBranchService {
 		}
 	}
 
-	public List<LibraryBranch> readAllBranches() throws SQLException {
+	/**
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public List<LibraryBranch> readBranches() throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
-			List<LibraryBranch> branches = branchDAO.readAllBranches(conn);
-			if (branches.size() == 0) {
+			List<LibraryBranch> authors = branchDAO.readAllBranches(conn);
+			if (authors.size() == 0) {
 				return null;
 			}
-			return branches;
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not read the branch.");
-			conn.rollback();
-			return null;
+			return authors;
 		} finally {
 			if (conn != null) {
 				conn.close();

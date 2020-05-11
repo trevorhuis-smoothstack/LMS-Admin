@@ -8,7 +8,6 @@ import com.ss.training.lms.service.admin.AdminGenreService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,11 +33,7 @@ public class AdminGenreController {
 	 * @param genreId
 	 * @return
 	 */
-	@GetMapping(path="/{genreId}", 
-					produces = {
-						MediaType.APPLICATION_XML_VALUE,
-						MediaType.APPLICATION_JSON_VALUE
-					})
+	@GetMapping(path="/{genreId}")
 	public ResponseEntity<Genre>readGenre(@PathVariable int genreId) {
 		Genre genre = null;
 		HttpStatus status = HttpStatus.OK;
@@ -57,10 +52,7 @@ public class AdminGenreController {
 	 * 
 	 * @return
 	 */
-	@GetMapping(produces = {
-						MediaType.APPLICATION_XML_VALUE,
-						MediaType.APPLICATION_JSON_VALUE
-					})
+	@GetMapping()
 	public ResponseEntity<List<Genre>> readGenres() {
 		List<Genre> genres = null;
 		HttpStatus status = HttpStatus.OK;
@@ -80,13 +72,10 @@ public class AdminGenreController {
 	 * @param genre
 	 * @return
 	 */
-	@PostMapping(consumes = {
-						MediaType.APPLICATION_JSON_VALUE,
-						MediaType.APPLICATION_XML_VALUE
-					})
+	@PostMapping()
 	public ResponseEntity<Genre> createGenre(@RequestBody Genre genre) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		if(genre == null || genre.getGenreName().length() > 45)
+		if(genre == null || genre.getGenreID() == null || genre.getGenreName().length() > 45)
 				return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
         try {
 			genreService.createGenre(genre);
@@ -103,13 +92,10 @@ public class AdminGenreController {
 	 * @param genre
 	 * @return
 	 */
-	@PutMapping(consumes = {
-						MediaType.APPLICATION_JSON_VALUE,
-						MediaType.APPLICATION_XML_VALUE
-					})
+	@PutMapping()
 	public ResponseEntity<Genre> updateGenre(@RequestBody Genre genre) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		if(genre == null || genre.getGenreID() == null || genre.getGenreName().length() > 45)
+		if(genre == null || genre.getGenreID() == null || genre.getGenreName() == null || genre.getGenreName().length() > 45)
 			return new ResponseEntity<Genre>(genre, status);
         try {
 			if(genreService.readGenre(genre.getGenreID()) == null)
@@ -127,11 +113,7 @@ public class AdminGenreController {
 	 * @param genre
 	 * @return
 	 */
-	@DeleteMapping(path="/{genreId}", 
-					produces = {
-						MediaType.APPLICATION_XML_VALUE,
-						MediaType.APPLICATION_JSON_VALUE
-					})
+	@DeleteMapping(path="/{genreId}")
 	public ResponseEntity<Genre> deleteGenre(@PathVariable int genreId) {
 		Genre genre = null;
 		HttpStatus status = HttpStatus.OK;

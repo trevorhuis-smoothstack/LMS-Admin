@@ -1,0 +1,53 @@
+createBranch
+	[+] Make good request - send JSON
+		05/09 returns 201 & creates branch
+	[+] Make good request - send XML
+		05/09 returns 201 & creates branch
+	[+] Make request with blank body
+		05/09 returns 400 & creates no branches
+	[+] Request creation of branch with name longer than 46 characters
+		05/09 returns 400 & creates no branches
+	[+] Make request with bad password in application.properties
+		05/09 returns 500 & creates no branches
+
+deleteBranch
+	[+] Make good request
+		05/08 returns 200 & deletes branch
+	[+] Request deletion of nonexistent branch
+		05/08 returns 404 & deletes no branches
+	[+] Make request with bad password in application.properties
+		05/08 returns 500 & deletes no branches
+
+readBranch
+	[+] Make good request - accept JSON
+		05/08 returns branch info with status 200
+	[+] Make good request - accept XML
+		05/08 returns branch info with status 200
+	[+] Request nonexistent branch
+		05/08 returns blank reply with status 404 
+	[+] Make request with bad password in application.properties
+		05/08 returns status 500
+
+readBranches
+	[+] Accept JSON
+		05/09 returns 200 & lists all branches
+	[+] Accept XML
+		05/09 returns 200 & lists all branches
+	[+] No records in table
+		05/09 returns 204 with empty body
+	[+] Bad password in application.properties
+		05/09 returns 500
+
+updateBranch
+	[+] Make good request - send JSON
+		05/09 returns 200 & updates branch
+	[+] Make good request - send XML
+		05/09 returns 200 & updates branch
+	[+] Make request with blank body
+		05/09 returns 400
+	[+] Request to update nonexistent branch
+		05/09 returns 400 & doesn't create branch
+	[+] Request to make name more than 45 characters
+		05/09 returns 400 & doesn't modify branch
+	[+] Make request with bad password in application.properties
+		05/09 returns 500

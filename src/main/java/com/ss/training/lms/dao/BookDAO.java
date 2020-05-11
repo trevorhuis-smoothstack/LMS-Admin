@@ -13,7 +13,7 @@ import com.ss.training.lms.entity.Book;
 @Component
 public class BookDAO extends BaseDAO<Book> {
 
-	public Integer addBook(Book book, Connection conn) throws ClassNotFoundException, SQLException {
+	public Integer createBook(Book book, Connection conn) throws ClassNotFoundException, SQLException {
 		return saveWithPK("INSERT INTO tbl_book (title, pubId) VALUES (?, ?)",
 				new Object[] { book.getTitle(), book.getPublisherId() }, conn);
 	}
@@ -39,7 +39,7 @@ public class BookDAO extends BaseDAO<Book> {
 		return read("SELECT * FROM tbl_book WHERE title LIKE ?;", new Object[] { true, search }, conn);
 	}
 
-	public List<Book> readABookById(Integer bookId, Connection conn) throws SQLException {
+	public List<Book> readBookById(Integer bookId, Connection conn) throws SQLException {
 		return read("SELECT * FROM tbl_book WHERE bookId = ?;", new Object[] { bookId }, conn);
 	}
 

@@ -13,23 +13,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class GenreDAO extends BaseDAO<Genre> {
 
-    public Integer addGenre(Genre genre, Connection conn) throws ClassNotFoundException, SQLException {
+    public Integer createGenre(Genre genre, Connection conn) throws ClassNotFoundException, SQLException {
 		return saveWithPK("INSERT INTO tbl_genre (genre_name) VALUES (?)", new Object[] {genre.getGenreName()}, conn);
 	}
 
 	public void updateGenre(Genre genre, Connection conn) throws ClassNotFoundException, SQLException {
-		save("UPDATE tbl_genre SET genre_name = ? WHERE genre_id = ?", new Object[] {genre.getGenreName(), genre.getGenreID()}, conn);
+		save("UPDATE tbl_genre SET genre_name = ? WHERE genre_id = ?", new Object[] {genre.getGenreName(), genre.getGenreId()}, conn);
 	}
 
 	public void deleteGenre(Genre genre, Connection conn)  throws ClassNotFoundException, SQLException {
-		save("DELETE FROM tbl_genre WHERE genre_id = ?", new Object[]{ genre.getGenreID() }, conn);
+		save("DELETE FROM tbl_genre WHERE genre_id = ?", new Object[]{ genre.getGenreId() }, conn);
 	}
 	
 	public List<Genre> readAllGenres(Connection conn) throws ClassNotFoundException, SQLException{
 		return read("SELECT * FROM tbl_genre", null, conn);
 	}
 
-	public List<Genre> readAGenre(Integer genreId, Connection conn) throws SQLException{
+	public List<Genre> readGenre(Integer genreId, Connection conn) throws SQLException{
 		return read("SELECT * FROM tbl_genre WHERE genre_id = ?", new Object[]{ genreId }, conn);
 	}
 
@@ -38,7 +38,7 @@ public class GenreDAO extends BaseDAO<Genre> {
 		List<Genre> genres = new ArrayList<>();
 		while(rs.next()){
 			Genre genre = new Genre();
-			genre.setGenreID(rs.getInt("genre_id"));
+			genre.setGenreId(rs.getInt("genre_id"));
             genre.setGenreName(rs.getString("genre_name"));
 			genres.add(genre);
 		}

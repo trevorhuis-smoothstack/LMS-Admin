@@ -7,23 +7,23 @@ public class BookGenre implements Serializable{
      *
      */
     private static final long serialVersionUID = -2215002821278598222L;
-    private Integer genre_id;
+    private Integer genreId;
     private Integer bookId;
 
-    public BookGenre(Integer genre_id, int bookId) {
-        this.genre_id = genre_id;
+    public BookGenre(Integer genreId, int bookId) {
+        this.genreId = genreId;
         this.bookId = bookId;
 	}
 
 	public BookGenre() {
 	}
 
-	public Integer getGenre_id() {
-        return genre_id;
+	public Integer getGenreId() {
+        return genreId;
     }
 
-    public void setGenre_id(Integer genre_id) {
-        this.genre_id = genre_id;
+    public void setGenreId(Integer genreId) {
+        this.genreId = genreId;
     }
 
     public Integer getBookId() {
@@ -39,7 +39,7 @@ public class BookGenre implements Serializable{
         final int prime = 31;
         int result = 1;
         result = prime * result + ((bookId == null) ? 0 : bookId.hashCode());
-        result = prime * result + ((genre_id == null) ? 0 : genre_id.hashCode());
+        result = prime * result + ((genreId == null) ? 0 : genreId.hashCode());
         return result;
     }
 
@@ -57,17 +57,17 @@ public class BookGenre implements Serializable{
                 return false;
         } else if (!bookId.equals(other.bookId))
             return false;
-        if (genre_id == null) {
-            if (other.genre_id != null)
+        if (genreId == null) {
+            if (other.genreId != null)
                 return false;
-        } else if (!genre_id.equals(other.genre_id))
+        } else if (!genreId.equals(other.genreId))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "BookGenre [bookId=" + bookId + ", genre_id=" + genre_id + "]";
+        return "BookGenre [bookId=" + bookId + ", genreId=" + genreId + "]";
     }
 
 

@@ -7,20 +7,20 @@ public class Book implements Serializable{
      *
      */
     private static final long serialVersionUID = -3859753496101899553L;
-    private int bookId;
+    private Integer bookId;
     private String title;
-    private int publisherId;
+    private Integer publisherId;
 
     @Override
     public String toString() {
         return bookId + ", " + title + ", " + publisherId;
     }
 
-    public int getBookId() {
+    public Integer getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Integer bookId) {
         this.bookId = bookId;
     }
 
@@ -32,15 +32,15 @@ public class Book implements Serializable{
         this.title = title;
     }
 
-    public int getPublisherId() {
+    public Integer getPublisherId() {
         return publisherId;
     }
 
-    public void setPublisherId(int publisherId) {
+    public void setPublisherId(Integer publisherId) {
         this.publisherId = publisherId;
     }
 
-    public Book(int bookId, String title, int publisherId) {
+    public Book(Integer bookId, String title, Integer publisherId) {
         this.bookId = bookId;
         this.title = title;
         this.publisherId = publisherId;
@@ -49,7 +49,7 @@ public class Book implements Serializable{
     public Book() {
 	}
 
-    public Book(String title, int publisherId) {
+    public Book(String title, Integer publisherId) {
         this.title = title;
         this.publisherId = publisherId;
 	}

@@ -10,11 +10,11 @@ public class Genre implements Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer genreID;
+	private Integer genreId;
 	private String genreName;
 
-	public Genre(Integer genreID, String genreName) {
-		this.genreID = genreID;
+	public Genre(Integer genreId, String genreName) {
+		this.genreId = genreId;
 		this.genreName = genreName;
 	}
 
@@ -25,12 +25,12 @@ public class Genre implements Serializable {
 		this.genreName = genreName;
 	}
 
-	public Integer getGenreID() {
-		return genreID;
+	public Integer getGenreId() {
+		return genreId;
 	}
 
-	public void setGenreID(Integer genreID) {
-		this.genreID = genreID;
+	public void setGenreId(Integer genreId) {
+		this.genreId = genreId;
 	}
 
 	public String getGenreName() {
@@ -45,7 +45,7 @@ public class Genre implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((genreID == null) ? 0 : genreID.hashCode());
+		result = prime * result + ((genreId == null) ? 0 : genreId.hashCode());
 		result = prime * result + ((genreName == null) ? 0 : genreName.hashCode());
 		return result;
 	}
@@ -59,10 +59,10 @@ public class Genre implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Genre other = (Genre) obj;
-		if (genreID == null) {
-			if (other.genreID != null)
+		if (genreId == null) {
+			if (other.genreId != null)
 				return false;
-		} else if (!genreID.equals(other.genreID))
+		} else if (!genreId.equals(other.genreId))
 			return false;
 		if (genreName == null) {
 			if (other.genreName != null)
@@ -74,7 +74,7 @@ public class Genre implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Genre [genreID=" + genreID + ", genreName=" + genreName + "]";
+		return "Genre [genreId=" + genreId + ", genreName=" + genreName + "]";
 	}
 
 }

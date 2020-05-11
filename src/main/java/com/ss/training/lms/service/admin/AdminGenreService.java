@@ -38,7 +38,7 @@ public class AdminGenreService {
         boolean success = false;
         try {
             conn = connUtil.getConnection();
-            genre.setGenreID( genreDAO.createGenre(genre, conn));
+            genre.setGenreId( genreDAO.createGenre(genre, conn));
             success = true;
         } finally {
             if(success)
@@ -62,7 +62,7 @@ public class AdminGenreService {
 
         try {
             conn = connUtil.getConnection();
-            bookGenreDAO.deleteGenresReferenceByGenre(genre.getGenreID(), conn);
+            bookGenreDAO.deleteGenresReferenceByGenre(genre.getGenreId(), conn);
             genreDAO.deleteGenre(genre, conn);
             success= true;
         } finally {

@@ -18,6 +18,9 @@ import com.ss.training.lms.entity.BookAuthor;
 import com.ss.training.lms.entity.BookGenre;
 import com.ss.training.lms.entity.Genre;
 
+/**
+ * @author Trevor Huis in 't Veld
+ */
 @Component
 public class AdminBookService {
     @Autowired
@@ -32,103 +35,154 @@ public class AdminBookService {
     @Autowired
     BookAuthorDAO bookAuthorDAO;
     
-    
-    public Integer addBook(Book book) throws SQLException {
-        Connection conn = null;
+    /**
+     * 
+     * @param book
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public void createBook(Book book) throws SQLException, ClassNotFoundException {
+        Connection conn= null;
+        boolean success= false;
         try {
-            conn = connUtil.getConnection();
-            Integer primaryKey = bookDAO.addBook(book, conn);
-            conn.commit();
-            return primaryKey;
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("We could not add that book.");
-            e.printStackTrace();
-            conn.rollback();
-            return 0;
+            conn= connUtil.getConnection();
+            book.setBookId(bookDAO.createBook(book, conn));
+            success= true;
         } finally {
-			if(conn!=null){
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
+			if (conn != null)
 				conn.close();
-			}
 		}
     }
 
-    public void addBookReferences(Book book, Author author, Genre genre) throws SQLException {
+    /**
+     * 
+     * @param genreId
+     * @param bookId
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public void createGenreReference(Integer genreId, Integer bookId) throws ClassNotFoundException, SQLException {
         Connection conn = null;
+        boolean success = false;
         try {
             conn = connUtil.getConnection();
-            // Add the book genre reference
-            BookGenre bookGenre = new BookGenre(genre.getGenreID(), book.getBookId());
+            BookGenre bookGenre = new BookGenre(genreId, bookId);
             bookGenreDAO.addBookGenreEntry(bookGenre, conn);
-
-            // Add the author book reference
-            BookAuthor bookAuthor = new BookAuthor(book.getBookId(), author.getAuthorId());
-            bookAuthorDAO.addBookAuthorEntry(bookAuthor, conn);
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("We could not add that book.");
-            e.printStackTrace();
-            conn.rollback();
+            success = true;
         } finally {
-			if(conn!=null){
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
+			if (conn != null)
 				conn.close();
-			}
 		}
-
-
     }
 
-    public void deleteBook(Book book) throws SQLException {
+    /**
+     * 
+     * @param authorId
+     * @param bookId
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public void createAuthorReference(Integer authorId, Integer bookId) throws ClassNotFoundException, SQLException {
         Connection conn = null;
+        boolean success = false;
+        try {
+            conn = connUtil.getConnection();
+            BookAuthor bookAuthor = new BookAuthor(bookId, authorId);
+            bookAuthorDAO.addBookAuthorEntry(bookAuthor, conn);
+            success = true;
+        } finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
+			if (conn != null)
+				conn.close();
+		}
+    }
+
+    /**
+     * 
+     * @param book
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public void deleteBook(Book book) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        boolean success = false;
         try {
             conn = connUtil.getConnection();
             bookDAO.deleteBook(book, conn);
-            conn.commit();
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("We could not delete that book.");
-            conn.rollback();
+            success = true;
         } finally {
-			if(conn!=null){
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
+			if (conn != null)
 				conn.close();
-			}
 		}
     }
 
-    public void updateABook(Book book) throws SQLException {
+    /**
+     * 
+     * @param book
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public void updateBook(Book book) throws SQLException, ClassNotFoundException {
         Connection conn = null;
+        boolean success = false;
         try {
             conn = connUtil.getConnection();
             bookDAO.updateBook(book, conn);
-            conn.commit();
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("We could not update that book.");
-            conn.rollback();
+            success= true;
         } finally {
-			if(conn!=null){
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
+			if (conn != null)
 				conn.close();
-			}
 		}
     }
 
-    public Book readABook(Integer bookId) throws SQLException {
+    /**
+     * 
+     * @param bookId
+     * @return
+     * @throws SQLException
+     */
+    public Book readBook(Integer bookId) throws SQLException {
         Connection conn = null;
         try {
             conn = connUtil.getConnection();
-            List<Book> books = bookDAO.readABookById(bookId, conn);
+            List<Book> books = bookDAO.readBookById(bookId, conn);
             if(books.size() == 0) {
                 return null;
             }
             return books.get(0);
-        } catch ( SQLException e) {
-            System.out.println("We could not read the book.");
-            conn.rollback();
-            return null;
         } finally {
-			if(conn!=null){
+			if (conn != null) {
 				conn.close();
 			}
 		}
     }
 
-    public List<Book> readAllBooks() throws SQLException {
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public List<Book> readAllBooks() throws SQLException, ClassNotFoundException {
         Connection conn = null;
         try {
             conn = connUtil.getConnection();
@@ -137,12 +191,8 @@ public class AdminBookService {
                 return null;
             }
             return books;
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("We could not read the books.");
-            conn.rollback();
-            return null;
         } finally {
-			if(conn!=null){
+			if (conn != null) {
 				conn.close();
 			}
 		}

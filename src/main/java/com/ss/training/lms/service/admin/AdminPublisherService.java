@@ -22,52 +22,71 @@ public class AdminPublisherService {
 	@Autowired
 	BookDAO bookDAO;
 
-	public Integer addAPublisher(Publisher publisher) throws SQLException {
+	/**
+	 * @param publisher
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void createPublisher(Publisher publisher) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
-			Integer primaryKey = pubDAO.addPublisher(publisher, conn);
-			conn.commit();
-			return primaryKey;
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not add that publisher.");
-			e.printStackTrace();
-			conn.rollback();
-			return 0;
+			// this will set the publisher ID in the calling class since objects are passed
+			// by reference
+			publisher.setPublisherId(pubDAO.addPublisher(publisher, conn));
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}
 		}
 	}
 
-	public void deleteAPublisher(Publisher publisher) throws SQLException {
+	/**
+	 * @param publisher
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void deletePublisher(Publisher publisher) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
-			bookDAO.deleteBooksByPublisher(publisher.getPublisherID(), conn);
+			bookDAO.deleteBooksByPublisher(publisher.getPublisherId(), conn);
 			pubDAO.deletePublisher(publisher, conn);
-			conn.commit();
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not delete that publisher.");
-			conn.rollback();
+			success = true;
 		} finally {
-			if (conn != null) {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
+			if (conn != null)
 				conn.close();
-			}
 		}
 	}
 
-	public void updateAPublisher(Publisher publisher) throws SQLException {
+	/**
+	 * @param publisher
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void updatePublisher(Publisher publisher) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
 			pubDAO.updatePublisher(publisher, conn);
-			conn.commit();
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not update that publisher.");
-			conn.rollback();
+			success = true;
 		} finally {
+			if (success)
+				conn.commit();
+			else
+				conn.rollback();
 			if (conn != null) {
 				conn.close();
 			}
@@ -84,7 +103,7 @@ public class AdminPublisherService {
 		try {
 			conn = connUtil.getConnection();
 			List<Publisher> publishers = pubDAO.readAPublisher(pubId, conn);
-			if (publishers.size() == 0) 
+			if (publishers.size() == 0)
 				return null;
 			return publishers.get(0);
 		} finally {
@@ -94,7 +113,12 @@ public class AdminPublisherService {
 		}
 	}
 
-	public List<Publisher> readAllPublishers() throws SQLException {
+	/**
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public List<Publisher> readPublishers() throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 		try {
 			conn = connUtil.getConnection();
@@ -103,10 +127,6 @@ public class AdminPublisherService {
 				return null;
 			}
 			return publishers;
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("We could not read the publishers.");
-			conn.rollback();
-			return null;
 		} finally {
 			if (conn != null) {
 				conn.close();

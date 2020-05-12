@@ -2,8 +2,6 @@ package com.ss.training.lms.entity;
 
 import java.io.Serializable;
 
-import org.springframework.stereotype.Component;
-
 public class BookCopies implements Serializable{
     /**
      *

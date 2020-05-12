@@ -1,3 +1,17 @@
+createAuthor
+	[+] Make good request - send JSON
+		05/09 returns 201 & creates author
+	[+] Make good request - send XML
+		05/09 returns 201 & creates author
+	[+] Make request with blank body
+		05/09 returns 400 & creates no authors
+	[+] Request creation of author with no name
+		05/09 returns 400 & creates no authors
+	[+] Request creation of author with name longer than 46 characters
+		05/09 returns 400 & creates no authors
+	[+] Make request with bad password in application.properties
+		05/09 returns 500 & creates no authors
+
 readAuthor
 	[+] Make good request - accept anything
 		05/08 returns author info with status 200
@@ -7,5 +21,39 @@ readAuthor
 		05/08 returns author info with status 200
 	[+] Request nonexistent author
 		05/08 returns blank reply with status 404
-	[+] Make request with bad database password
+	[+] Make request with bad password in application.properties
 		05/08 returns status 500
+
+readAuthors
+	[+] Accept JSON
+		05/09 returns 200 & lists all authors
+	[+] Accept XML
+		05/09 returns 200 & lists all authors
+	[+] No records in table
+		05/09 returns 204 & empty body
+	[+] Bad password in application.properties
+		05/09 returns 500
+
+deleteAuthor
+	[+] Make good request
+		05/08 returns 200 & deletes author
+	[+] Request nonexistent author
+		05/08 returns 404 & deletes no authors
+	[+] Make request with bad password in application.properties
+		05/08 returns 500 & deletes no authors
+
+updateAuthor
+	[+] Make good request - send JSON
+		05/09 updates author & returns 200
+	[+] Make good request - send XML
+		05/09 updates author & returns 200
+	[+] Make request with blank body
+		05/09 returns 400
+	[+] Request to update nonexistent author
+		05/09 returns 400
+	[+] Make request with no authorName
+		05/09 returns 400, author not modified
+	[+] Request to make name more than 45 characters
+		05/09 returns 400, author not modified
+	[+] Make request with bad password in application.properties
+		05/09 returns 500, author not modified

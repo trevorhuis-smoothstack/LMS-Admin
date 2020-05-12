@@ -34,7 +34,12 @@ public class AdminOverrideLoanController
 			return new ResponseEntity<BookLoan>(bookLoan, status);
 		}
 		try {
-			adminOverrideLoanService.addAWeekToALoan(bookLoan);
+			boolean updated = adminOverrideLoanService.addAWeekToALoan(bookLoan);
+			if (updated == false)
+			{
+				status = HttpStatus.BAD_REQUEST;
+				return new ResponseEntity<BookLoan>(bookLoan, status);
+			}
 		} catch (SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			return new ResponseEntity<BookLoan>(bookLoan, status);

@@ -46,7 +46,7 @@ public class AdminBookController {
 	@PostMapping
 	public ResponseEntity<Book> createBook(@RequestBody Book book) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        if (book == null || book.getTitle() == null || book.getTitle().length() > 45 || book.getPublisherId() == null)
+        if (book == null || book.getTitle() == null || (book.getTitle() != null && book.getTitle().length() > 45))
 			return new ResponseEntity<Book>(book, status);
 		try {
 			bookService.createBook(book);
@@ -123,7 +123,7 @@ public class AdminBookController {
 	@PutMapping
 	public ResponseEntity<Book> updateBook(@RequestBody Book book) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		if (book == null || book.getTitle().length() > 45)
+		if (book == null || (book.getTitle() != null && book.getTitle().length() > 45))
 			return new ResponseEntity<Book>(book, status);
 		try {
 			if (bookService.readBook(book.getBookId()) == null)

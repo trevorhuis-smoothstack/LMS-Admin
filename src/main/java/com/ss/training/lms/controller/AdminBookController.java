@@ -62,7 +62,7 @@ public class AdminBookController {
      * @param bookId
      * @return
      */
-	@RequestMapping(path="/{id}")
+	@RequestMapping(path="/{bookId}")
 	public ResponseEntity<Book> readBook(@PathVariable int bookId) {
 		Book book = null;
 		HttpStatus status = HttpStatus.OK;
@@ -99,7 +99,7 @@ public class AdminBookController {
      * @param bookId
      * @return
      */
-	@DeleteMapping(path="/{id}")
+	@DeleteMapping(path="/{bookId}")
 	public ResponseEntity<Book> deleteBook(@PathVariable int bookId) {
 		Book book = null;
 		HttpStatus status = HttpStatus.OK;

@@ -25,7 +25,7 @@ public class AdminBorrwerController {
     public ResponseEntity<Borrower> addABorrower(@RequestBody Borrower borrower) {
         HttpStatus status = HttpStatus.CREATED;
 
-        if (borrower == null || borrower.getCardNo() == null || borrower.getName() == null) {
+        if (borrower == null) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<Borrower>(borrower, status);
         }
@@ -44,7 +44,7 @@ public class AdminBorrwerController {
     public ResponseEntity<Borrower> deleteABorrower(@RequestBody Borrower borrower) {
         HttpStatus status = HttpStatus.ACCEPTED;
 
-        if (borrower == null || borrower.getCardNo() == null || borrower.getName() == null) {
+        if (borrower == null || borrower.getCardNo() == null) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<Borrower>(borrower, status);
         }
@@ -62,7 +62,7 @@ public class AdminBorrwerController {
     public ResponseEntity<Borrower> updateABorrower(@RequestBody Borrower borrower) {
         HttpStatus status = HttpStatus.ACCEPTED;
 
-        if (borrower == null || borrower.getCardNo() == null || borrower.getName() == null) {
+        if (borrower == null || borrower.getCardNo() == null) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<Borrower>(borrower, status);
         }

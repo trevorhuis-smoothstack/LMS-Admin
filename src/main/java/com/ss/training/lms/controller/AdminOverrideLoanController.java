@@ -27,8 +27,9 @@ public class AdminOverrideLoanController
 	@PutMapping(path="/lms/admin/bookloans/extend")
 	public ResponseEntity<BookLoan> addAWeekToALoan(@RequestBody BookLoan bookLoan)  {
 
+		System.out.println("hello");
 		HttpStatus status = HttpStatus.OK;
-		if (bookLoan == null || bookLoan.getDateOut() == null)
+		if (bookLoan == null || bookLoan.getDateOut() == null || bookLoan.getCardNo() == null || bookLoan.getBookId() == null)
 		{
 			status = HttpStatus.BAD_REQUEST;
 			return new ResponseEntity<BookLoan>(bookLoan, status);

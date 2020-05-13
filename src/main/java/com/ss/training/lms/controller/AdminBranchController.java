@@ -50,7 +50,7 @@ public class AdminBranchController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(path = "/lms/admin/branch")
+	@RequestMapping(path = "/lms/admin/branches")
 	public ResponseEntity<List<LibraryBranch>> readBranches() {
 		List<LibraryBranch> branches = null;
 		HttpStatus status = HttpStatus.OK;
@@ -111,7 +111,7 @@ public class AdminBranchController {
 			return new ResponseEntity<LibraryBranch>(branch, status);
 		try {
 			if (service.readBranch(branch.getBranchId()) == null) // no branch with the specified ID exists
-				return new ResponseEntity<LibraryBranch>(branch, status);
+				return new ResponseEntity<LibraryBranch>(branch, HttpStatus.NOT_FOUND);
 			service.updateBranch(branch);
 			status = HttpStatus.OK;
 		} catch (ClassNotFoundException | SQLException e) {

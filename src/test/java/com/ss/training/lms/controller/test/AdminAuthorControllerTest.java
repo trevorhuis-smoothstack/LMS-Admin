@@ -59,7 +59,7 @@ public class AdminAuthorControllerTest {
 		
 		Mockito.when(adminAuthorService.readAuthor(1)).thenReturn(author);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/lms/admin/authors/1"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/lms/admin/authors/1").accept(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andExpect(MockMvcResultMatchers.content().json(item.toString()));
 		
@@ -83,7 +83,7 @@ public class AdminAuthorControllerTest {
 		
 		Mockito.when(adminAuthorService.readAuthors()).thenReturn(authors);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/lms/admin/authors"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/lms/admin/authors").accept(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andExpect(MockMvcResultMatchers.content().json(array.toString()));
 		
@@ -114,6 +114,42 @@ public class AdminAuthorControllerTest {
 				.content(item2.toJSONString()))
 		.andExpect(MockMvcResultMatchers.status().isBadRequest());
 	}
-//	updateAuthorTest
-//	deleteAuthorTest
+	
+	@Test
+	public void testUpdateAuthor() throws Exception
+	{
+		Author author = new Author(1, "david");
+		Mockito.when(adminAuthorService.readAuthor(1)).thenReturn(author);
+		
+		JSONObject item = new JSONObject();
+		item.put("authorId", 1);
+		item.put("authorName", "david");
+		
+		mockMvc.perform(MockMvcRequestBuilders.put("/lms/admin/author")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(item.toJSONString()))
+		.andExpect(MockMvcResultMatchers.status().isOk());
+		JSONObject item2 = new JSONObject();
+		item2.put("authorId", 1);
+		item2.put("authorName", "a string that is more than forty five characters long is being put into the database");
+	
+		mockMvc.perform(MockMvcRequestBuilders.put("/lms/admin/author")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(item2.toJSONString()))
+		.andExpect(MockMvcResultMatchers.status().isBadRequest());
+	}
+	
+	@Test
+	public void testDeleteAuthorTest()throws Exception
+	{
+		Author author = new Author(1,"david");
+		Mockito.when(adminAuthorService.readAuthor(1)).thenReturn(author);
+
+		mockMvc.perform(MockMvcRequestBuilders.delete("/lms/admin/authors/1"))
+			.andExpect(MockMvcResultMatchers.status().isOk());
+		
+		Mockito.when(adminAuthorService.readAuthor(1)).thenReturn(null);
+		mockMvc.perform(MockMvcRequestBuilders.delete("/lms/admin/authors/1"))
+		.andExpect(MockMvcResultMatchers.status().isNotFound());
+	}
 }

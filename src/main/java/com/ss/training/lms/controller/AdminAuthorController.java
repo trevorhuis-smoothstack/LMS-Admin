@@ -65,7 +65,7 @@ public class AdminAuthorController {
 	/**
 	 * @return
 	 */
-	@RequestMapping(path = "/lms/admin/author")
+	@RequestMapping(path = "/lms/admin/authors")
 	public ResponseEntity<List<Author>> readAuthors() {
 		List<Author> authors = null;
 		HttpStatus status = HttpStatus.OK;

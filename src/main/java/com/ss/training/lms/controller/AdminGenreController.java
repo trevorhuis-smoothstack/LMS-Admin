@@ -98,7 +98,7 @@ public class AdminGenreController {
 		if(genre == null || genre.getGenreID() == null || (genre.getGenreName() != null && genre.getGenreName().length() > 45))
 			return new ResponseEntity<Genre>(genre, status);
         try {
-			if(genreService.readGenre(genre.getGenreID()) == null)
+			if(genreService.readGenre(genre.getGenreId()) == null)
 				return new ResponseEntity<Genre>(genre, HttpStatus.NOT_FOUND);
 			genreService.updateGenre(genre);
 			status = HttpStatus.CREATED;

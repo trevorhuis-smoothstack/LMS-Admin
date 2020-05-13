@@ -18,11 +18,11 @@ public class GenreDAO extends BaseDAO<Genre> {
 	}
 
 	public void updateGenre(Genre genre, Connection conn) throws ClassNotFoundException, SQLException {
-		save("UPDATE tbl_genre SET genre_name = ? WHERE genre_id = ?", new Object[] {genre.getGenreName(), genre.getGenreID()}, conn);
+		save("UPDATE tbl_genre SET genre_name = ? WHERE genre_id = ?", new Object[] {genre.getGenreName(), genre.getGenreId()}, conn);
 	}
 
 	public void deleteGenre(Genre genre, Connection conn)  throws ClassNotFoundException, SQLException {
-		save("DELETE FROM tbl_genre WHERE genre_id = ?", new Object[]{ genre.getGenreID() }, conn);
+		save("DELETE FROM tbl_genre WHERE genre_id = ?", new Object[]{ genre.getGenreId() }, conn);
 	}
 	
 	public List<Genre> readAllGenres(Connection conn) throws ClassNotFoundException, SQLException{
@@ -38,7 +38,7 @@ public class GenreDAO extends BaseDAO<Genre> {
 		List<Genre> genres = new ArrayList<>();
 		while(rs.next()){
 			Genre genre = new Genre();
-			genre.setGenreID(rs.getInt("genre_id"));
+			genre.setGenreId(rs.getInt("genre_id"));
             genre.setGenreName(rs.getString("genre_name"));
 			genres.add(genre);
 		}

@@ -70,6 +70,7 @@ public class AdminGenreController {
 	@PostMapping()
 	public ResponseEntity<Genre> createGenre(@RequestBody Genre genre) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
+
 		if(genre == null || genre.getGenreId() == null || (genre.getGenreName() != null && genre.getGenreName().length() > 45))
 				return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
 
@@ -95,6 +96,7 @@ public class AdminGenreController {
 			return new ResponseEntity<Genre>(genre, HttpStatus.NOT_FOUND);
 		genreService.saveGenre(genre);
 		status = HttpStatus.CREATED;
+
 
         return new ResponseEntity<Genre>(genre, status);
 	}

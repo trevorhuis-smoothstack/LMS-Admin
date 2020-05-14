@@ -47,7 +47,7 @@ public class AdminBranchController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(path = "/lms/admin/branch")
+	@RequestMapping(path = "/lms/admin/branches")
 	public ResponseEntity<List<LibraryBranch>> readBranches() {
 		List<LibraryBranch> branches = null;
 		HttpStatus status = HttpStatus.OK;
@@ -105,6 +105,7 @@ public class AdminBranchController {
 			return new ResponseEntity<LibraryBranch>(branch, status);
 		service.saveBranch(branch);
 		status = HttpStatus.OK;
+
 
 		return new ResponseEntity<LibraryBranch>(branch, status);
 	}

@@ -110,6 +110,7 @@ public class AdminPublisherController {
 		service.savePublisher(publisher);
 		status = HttpStatus.OK;
 
+
 		return new ResponseEntity<Publisher>(publisher, status);
 	}
 

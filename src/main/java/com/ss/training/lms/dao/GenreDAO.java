@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GenreDAO extends JpaRepository<Genre, Long> {
-
+    Genre findByGenreId(Integer genreId);
 }

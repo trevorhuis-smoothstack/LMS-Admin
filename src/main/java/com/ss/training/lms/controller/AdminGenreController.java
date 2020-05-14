@@ -1,6 +1,5 @@
 package com.ss.training.lms.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.ss.training.lms.entity.Genre;
@@ -37,14 +36,12 @@ public class AdminGenreController {
 	public ResponseEntity<Genre>readGenre(@PathVariable int genreId) {
 		Genre genre = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			genre= genreService.readGenre(genreId);
-			if (genre == null) {
-				status = HttpStatus.NOT_FOUND;
-			}
-		} catch (SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+		genre= genreService.readGenre(genreId);
+		if (genre == null) {
+			status = HttpStatus.NOT_FOUND;
 		}
+
 		return new ResponseEntity<Genre>(genre, status);
 	}
 
@@ -56,14 +53,12 @@ public class AdminGenreController {
 	public ResponseEntity<List<Genre>> readGenres() {
 		List<Genre> genres = null;
 		HttpStatus status = HttpStatus.OK;
-        try {
-			genres= genreService.readAllGenres();
-			if (genres == null) {
-				status = HttpStatus.NO_CONTENT;
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+		genres= genreService.readAllGenres();
+		if (genres == null) {
+			status = HttpStatus.NO_CONTENT;
 		}
+
         return new ResponseEntity<List<Genre>>(genres, status);
 	}
 
@@ -77,12 +72,10 @@ public class AdminGenreController {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		if(genre == null || genre.getGenreId() == null || (genre.getGenreName() != null && genre.getGenreName().length() > 45))
 				return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
-        try {
-			genreService.createGenre(genre);
-			status = HttpStatus.CREATED;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		genreService.saveGenre(genre);
+		status = HttpStatus.CREATED;
+
         return new ResponseEntity<Genre>(genre, status);
 		
 	}
@@ -97,14 +90,12 @@ public class AdminGenreController {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		if(genre == null || genre.getGenreId() == null || (genre.getGenreName() != null && genre.getGenreName().length() > 45))
 			return new ResponseEntity<Genre>(genre, status);
-        try {
-			if(genreService.readGenre(genre.getGenreId()) == null)
-				return new ResponseEntity<Genre>(genre, HttpStatus.NOT_FOUND);
-			genreService.updateGenre(genre);
-			status = HttpStatus.CREATED;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		if(genreService.readGenre(genre.getGenreId()) == null)
+			return new ResponseEntity<Genre>(genre, HttpStatus.NOT_FOUND);
+		genreService.saveGenre(genre);
+		status = HttpStatus.CREATED;
+
         return new ResponseEntity<Genre>(genre, status);
 	}
 
@@ -117,15 +108,13 @@ public class AdminGenreController {
 	public ResponseEntity<Genre> deleteGenre(@PathVariable int genreId) {
 		Genre genre = null;
 		HttpStatus status = HttpStatus.OK;
-        try {
-			genre= genreService.readGenre(genreId);
-			if(genre == null)
-				status = HttpStatus.NOT_FOUND;
-			else
-				genreService.deleteGenre(genre);
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		genre= genreService.readGenre(genreId);
+		if(genre == null)
+			status = HttpStatus.NOT_FOUND;
+		else
+			genreService.deleteGenre(genre);
+
         return new ResponseEntity<Genre>(genre, status);
 	}
 }

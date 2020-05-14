@@ -33,15 +33,11 @@ public class AdminOverrideLoanController
 			status = HttpStatus.BAD_REQUEST;
 			return new ResponseEntity<BookLoan>(bookLoan, status);
 		}
-		try {
-			boolean updated = adminOverrideLoanService.addAWeekToALoan(bookLoan);
-			if (updated == false)
-			{
-				status = HttpStatus.BAD_REQUEST;
-				return new ResponseEntity<BookLoan>(bookLoan, status);
-			}
-		} catch (SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+		boolean updated = adminOverrideLoanService.addAWeekToALoan(bookLoan);
+		if (updated == false)
+		{
+			status = HttpStatus.BAD_REQUEST;
 			return new ResponseEntity<BookLoan>(bookLoan, status);
 		}
 		return new ResponseEntity<BookLoan>(bookLoan, status);

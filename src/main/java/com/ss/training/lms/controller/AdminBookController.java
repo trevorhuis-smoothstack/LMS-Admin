@@ -149,7 +149,7 @@ public class AdminBookController {
 	 * @return
 	 */
     @PostMapping(path="/author")
-    public ResponseEntity<BookAuthor> createGenreReference(@RequestBody BookAuthor authorRef) {
+    public ResponseEntity<BookAuthor> createAuthorReference(@RequestBody BookAuthor authorRef) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (authorRef == null || authorRef.getBookId() == null || authorRef.getAuthorId() == null)
 			return new ResponseEntity<BookAuthor>(authorRef, status);

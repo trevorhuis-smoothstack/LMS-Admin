@@ -43,7 +43,6 @@ public class AdminBranchController {
 	AdminBranchService service;
 
 	/**
-	 * <<<<<<< HEAD
 	 * 
 	 * @return
 	 */

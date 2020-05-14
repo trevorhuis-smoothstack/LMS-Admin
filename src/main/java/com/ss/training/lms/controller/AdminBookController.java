@@ -75,14 +75,16 @@ public class AdminBookController {
      * @return
      */
 	@RequestMapping
-	public ResponseEntity<List<Book>> readBooks() {
-		List<Book> books = null;
-		HttpStatus status = HttpStatus.OK;
-		
-		books = bookService.readAllBooks();
-		if (books == null) // no Books exist in the database
-			status = HttpStatus.NO_CONTENT;
-		return new ResponseEntity<List<Book>>(books, status);
+	public ResponseEntity<Book[]> readBooks() {
+	List<Book> bookList = null;
+	Book[] bookArray = null;
+	HttpStatus status = HttpStatus.OK;
+	bookList = bookService.readAllBooks();
+	if (bookList == null) // no books exist in the database
+		status = HttpStatus.NO_CONTENT;
+	else
+		bookArray = bookList.toArray(new Book[bookList.size()]);
+	return new ResponseEntity<Book[]>(bookArray, status);
 	}
 
     /**
@@ -149,7 +151,7 @@ public class AdminBookController {
 	 * @return
 	 */
     @PostMapping(path="/author")
-    public ResponseEntity<BookAuthor> createGenreReference(@RequestBody BookAuthor authorRef) {
+    public ResponseEntity<BookAuthor> createAuthorReference(@RequestBody BookAuthor authorRef) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (authorRef == null || authorRef.getBookId() == null || authorRef.getAuthorId() == null)
 			return new ResponseEntity<BookAuthor>(authorRef, status);

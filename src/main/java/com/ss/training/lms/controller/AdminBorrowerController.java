@@ -3,6 +3,7 @@ package com.ss.training.lms.controller;
 import java.util.List;
 
 import com.ss.training.lms.entity.Borrower;
+import com.ss.training.lms.entity.Genre;
 import com.ss.training.lms.service.admin.AdminBorrowerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,18 +92,15 @@ public class AdminBorrowerController {
     }
 
     @RequestMapping(path = "/borrowers")
-    public ResponseEntity<List<Borrower>> readAllBorrowers() {
-        HttpStatus status = HttpStatus.OK;
-        List<Borrower> borrowers = null;
-
-
-        borrowers = adminBorrowerService.readAllBorrowers();
-        if (borrowers == null)
-        {
-            status = HttpStatus.NO_CONTENT;
-            return new ResponseEntity<List<Borrower>>(borrowers, status);
-        }
-
-        return new ResponseEntity<List<Borrower>>(borrowers, status);
-    }
+    public ResponseEntity<Borrower[]> readAllBorrowers() {
+    	List<Borrower> borrowerList = null;
+		Borrower[] borrowerArray = null;
+		HttpStatus status = HttpStatus.OK;
+		borrowerList = adminBorrowerService.readAllBorrowers();
+		if (borrowerList == null) // no borrowers exist in the database
+			status = HttpStatus.NO_CONTENT;
+		else
+			borrowerArray = borrowerList.toArray(new Borrower[borrowerList.size()]);
+		return new ResponseEntity<Borrower[]>(borrowerArray, status);
+	}
 }

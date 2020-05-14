@@ -34,10 +34,10 @@ public class AdminAuthorController {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (author == null || author.getAuthorName() == null || author.getAuthorName().length() > 45)
 			return new ResponseEntity<Author>(author, status);
-		
+
 		service.saveAuthor(author); // this will also set the ID of this author object if successful
 		status = HttpStatus.CREATED;
-		
+
 		return new ResponseEntity<Author>(author, status);
 	}
 
@@ -53,7 +53,7 @@ public class AdminAuthorController {
 		author = service.readAuthor(id);
 		if (author == null) // no author with the specified ID exists
 			status = HttpStatus.NOT_FOUND;
-		
+
 		return new ResponseEntity<Author>(author, status);
 	}
 
@@ -61,15 +61,16 @@ public class AdminAuthorController {
 	 * @return
 	 */
 	@RequestMapping(path = "/lms/admin/authors")
-	public ResponseEntity<List<Author>> readAuthors() {
-		List<Author> authors = null;
+	public ResponseEntity<Author[]> readAuthors() {
+		List<Author> authorList = null;
+		Author[] authorArray = null;
 		HttpStatus status = HttpStatus.OK;
-
-		authors = service.readAuthors();
-		if (authors == null) // no authors exist in the database
+		authorList = service.readAuthors();
+		if (authorList == null) // no authors exist in the database
 			status = HttpStatus.NO_CONTENT;
-		
-		return new ResponseEntity<List<Author>>(authors, status);
+		else
+			authorArray = authorList.toArray(new Author[authorList.size()]);
+		return new ResponseEntity<Author[]>(authorArray, status);
 	}
 
 	/**

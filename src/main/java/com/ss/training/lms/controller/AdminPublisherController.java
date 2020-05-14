@@ -63,15 +63,16 @@ public class AdminPublisherController {
 	 * @return
 	 */
 	@RequestMapping(path = "/lms/admin/publisher")
-	public ResponseEntity<List<Publisher>> readPublishers() {
-		List<Publisher> publishers = null;
+	public ResponseEntity<Publisher[]> readPublishers() {
+		List<Publisher> publisherList = null;
+		Publisher[] publisherArray = null;
 		HttpStatus status = HttpStatus.OK;
-
-		publishers = service.readPublishers();
-		if (publishers == null) // no publishers exist in the database
+		publisherList = service.readPublishers();
+		if (publisherList == null) // no publishers exist in the database
 			status = HttpStatus.NO_CONTENT;
-
-		return new ResponseEntity<List<Publisher>>(publishers, status);
+		else
+			publisherArray = publisherList.toArray(new Publisher[publisherList.size()]);
+		return new ResponseEntity<Publisher[]>(publisherArray, status);
 	}
 
 	/**

@@ -66,17 +66,20 @@ public class AdminAuthorController {
 	 * @return
 	 */
 	@RequestMapping(path = "/lms/admin/authors")
-	public ResponseEntity<List<Author>> readAuthors() {
-		List<Author> authors = null;
+	public ResponseEntity<Author[]> readAuthors() {
+		List<Author> authorList = null;
+		Author[] authorArray = null;
 		HttpStatus status = HttpStatus.OK;
 		try {
-			authors = service.readAuthors();
-			if (authors == null) // no authors exist in the database
+			authorList = service.readAuthors();
+			if (authorList == null) // no authors exist in the database
 				status = HttpStatus.NO_CONTENT;
+			else
+				authorArray = authorList.toArray(new Author[authorList.size()]);
 		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-		return new ResponseEntity<List<Author>>(authors, status);
+		return new ResponseEntity<Author[]>(authorArray, status);
 	}
 
 	/**

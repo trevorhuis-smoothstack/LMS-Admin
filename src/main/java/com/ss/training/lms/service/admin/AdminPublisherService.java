@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.ss.training.lms.dao.BookDAO;
 import com.ss.training.lms.dao.PublisherDAO;
+import com.ss.training.lms.entity.Book;
 import com.ss.training.lms.entity.Publisher;
 import com.ss.training.lms.jdbc.ConnectionUtil;
 
@@ -24,113 +25,36 @@ public class AdminPublisherService {
 
 	/**
 	 * @param publisher
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	public void createPublisher(Publisher publisher) throws ClassNotFoundException, SQLException {
-		boolean success = false;
-		Connection conn = null;
-		try {
-			conn = connUtil.getConnection();
-			// this will set the publisher ID in the calling class since objects are passed
-			// by reference
-			publisher.setPublisherId(pubDAO.addPublisher(publisher, conn));
-			success = true;
-		} finally {
-			if (success)
-				conn.commit();
-			else
-				conn.rollback();
-			if (conn != null) {
-				conn.close();
-			}
-		}
+	public void savePublisher(Publisher publisher) {
+		pubDAO.save(publisher);
 	}
 
 	/**
 	 * @param publisher
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	public void deletePublisher(Publisher publisher) throws ClassNotFoundException, SQLException {
-		boolean success = false;
-		Connection conn = null;
-		try {
-			conn = connUtil.getConnection();
-			bookDAO.deleteBooksByPublisher(publisher.getPublisherId(), conn);
-			pubDAO.deletePublisher(publisher, conn);
-			success = true;
-		} finally {
-			if (success)
-				conn.commit();
-			else
-				conn.rollback();
-			if (conn != null)
-				conn.close();
+	public void deletePublisher(Publisher publisher) {
+		List<Book> books = bookDAO.findByPublisherId(publisher.getPublisherId());
+		for(Book book : books) {
+			bookDAO.delete(book);
 		}
+		pubDAO.delete(publisher);
+
 	}
 
-	/**
-	 * @param publisher
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	public void updatePublisher(Publisher publisher) throws ClassNotFoundException, SQLException {
-		boolean success = false;
-		Connection conn = null;
-		try {
-			conn = connUtil.getConnection();
-			pubDAO.updatePublisher(publisher, conn);
-			success = true;
-		} finally {
-			if (success)
-				conn.commit();
-			else
-				conn.rollback();
-			if (conn != null) {
-				conn.close();
-			}
-		}
-	}
 
 	/**
 	 * @param pubId
 	 * @return
-	 * @throws SQLException
 	 */
-	public Publisher readPublisher(Integer pubId) throws SQLException {
-		Connection conn = null;
-		try {
-			conn = connUtil.getConnection();
-			List<Publisher> publishers = pubDAO.readAPublisher(pubId, conn);
-			if (publishers.size() == 0)
-				return null;
-			return publishers.get(0);
-		} finally {
-			if (conn != null) {
-				conn.close();
-			}
-		}
+	public Publisher readPublisher(Integer pubId) {
+		return pubDAO.findByPublisherId(pubId);
 	}
 
 	/**
 	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	public List<Publisher> readPublishers() throws ClassNotFoundException, SQLException {
-		Connection conn = null;
-		try {
-			conn = connUtil.getConnection();
-			List<Publisher> publishers = pubDAO.readAllPublishers(conn);
-			if (publishers.size() == 0) {
-				return null;
-			}
-			return publishers;
-		} finally {
-			if (conn != null) {
-				conn.close();
-			}
-		}
+	public List<Publisher> readPublishers() {
+		return pubDAO.findAll();
 	}
 }

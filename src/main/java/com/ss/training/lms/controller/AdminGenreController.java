@@ -2,9 +2,6 @@ package com.ss.training.lms.controller;
 
 import java.util.List;
 
-import com.ss.training.lms.entity.Genre;
-import com.ss.training.lms.service.admin.AdminGenreService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ss.training.lms.entity.Genre;
+import com.ss.training.lms.service.admin.AdminGenreService;
 
 /**
  * @author Trevor Huis in 't Veld
@@ -50,16 +50,16 @@ public class AdminGenreController {
 	 * @return
 	 */
 	@GetMapping()
-	public ResponseEntity<List<Genre>> readGenres() {
-		List<Genre> genres = null;
+	public ResponseEntity<Genre[]> readGenres() {
+		List<Genre> genreList = null;
+		Genre[] genreArray = null;
 		HttpStatus status = HttpStatus.OK;
-
-		genres= genreService.readAllGenres();
-		if (genres == null) {
+		genreList = genreService.readAllGenres();
+		if (genreList == null) // no genres exist in the database
 			status = HttpStatus.NO_CONTENT;
-		}
-
-        return new ResponseEntity<List<Genre>>(genres, status);
+		else
+			genreArray = genreList.toArray(new Genre[genreList.size()]);
+		return new ResponseEntity<Genre[]>(genreArray, status);
 	}
 
 	/**

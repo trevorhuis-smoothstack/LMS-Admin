@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ss.training.lms.entity.LibraryBranch;
@@ -47,15 +47,16 @@ public class AdminBranchController {
 	 * @return
 	 */
 	@RequestMapping(path = "/lms/admin/branches")
-	public ResponseEntity<List<LibraryBranch>> readBranches() {
-		List<LibraryBranch> branches = null;
+	public ResponseEntity<LibraryBranch[]> readBranches() {
+		List<LibraryBranch> branchList = null;
+		LibraryBranch[] branchArray = null;
 		HttpStatus status = HttpStatus.OK;
-
-		branches = service.readBranches();
-		if (branches == null) // no branches exist in the database
+		branchList = service.readBranches();
+		if (branchList == null) // no branches exist in the database
 			status = HttpStatus.NO_CONTENT;
-
-		return new ResponseEntity<List<LibraryBranch>>(branches, status);
+		else
+			branchArray = branchList.toArray(new LibraryBranch[branchList.size()]);
+		return new ResponseEntity<LibraryBranch[]>(branchArray, status);
 	}
 
 	/**
@@ -104,7 +105,6 @@ public class AdminBranchController {
 			return new ResponseEntity<LibraryBranch>(branch, HttpStatus.NOT_FOUND);
 		service.saveBranch(branch);
 		status = HttpStatus.OK;
-
 
 		return new ResponseEntity<LibraryBranch>(branch, status);
 	}

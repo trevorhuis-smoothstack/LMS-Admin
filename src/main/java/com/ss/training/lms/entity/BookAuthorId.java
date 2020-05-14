@@ -2,36 +2,14 @@ package com.ss.training.lms.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+public class BookAuthorId implements Serializable{
 
-@Entity
-@Table(name="tbl_book_authors")
-@IdClass(BookAuthorId.class)
-public class BookAuthor implements Serializable {
-    
     /**
      *
      */
-    private static final long serialVersionUID = 4137817254042616113L;
-    @Id
-    @Column(name="bookId")
+    private static final long serialVersionUID = -1972867969076912578L;
     private Integer bookId;
-
-    @Id
-    @Column(name="authorId")
     private Integer authorId;
-
-    public BookAuthor(Integer bookId, Integer authorId) {
-        this.bookId = bookId;
-        this.authorId = authorId;
-    }
-
-    public BookAuthor() {
-    }
 
     public Integer getBookId() {
         return bookId;
@@ -66,7 +44,7 @@ public class BookAuthor implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        BookAuthor other = (BookAuthor) obj;
+        BookAuthorId other = (BookAuthorId) obj;
         if (authorId == null) {
             if (other.authorId != null)
                 return false;
@@ -79,12 +57,5 @@ public class BookAuthor implements Serializable {
             return false;
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "BookAuthor [authorId=" + authorId + ", bookId=" + bookId + "]";
-    }
-
-    
     
 }

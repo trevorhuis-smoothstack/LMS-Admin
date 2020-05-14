@@ -1,6 +1,5 @@
 package com.ss.training.lms.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +36,10 @@ public class AdminPublisherController {
 				|| (publisher.getAddress() != null && publisher.getAddress().length() > 45)
 				|| (publisher.getPhone() != null && publisher.getPhone().length() > 45))
 			return new ResponseEntity<Publisher>(publisher, status);
-		try {
-			service.createPublisher(publisher); // this will also set the ID of this publisher object if successful
-			status = HttpStatus.CREATED;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		service.savePublisher(publisher); // this will also set the ID of this publisher object if successful
+		status = HttpStatus.CREATED;
+
 		return new ResponseEntity<Publisher>(publisher, status);
 	}
 
@@ -54,13 +51,11 @@ public class AdminPublisherController {
 	public ResponseEntity<Publisher> readPublisher(@PathVariable int id) {
 		Publisher publisher = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			publisher = service.readPublisher(id);
-			if (publisher == null) // no publisher with the specified ID exists
-				status = HttpStatus.NOT_FOUND;
-		} catch (SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		publisher = service.readPublisher(id);
+		if (publisher == null) // no publisher with the specified ID exists
+			status = HttpStatus.NOT_FOUND;
+
 		return new ResponseEntity<Publisher>(publisher, status);
 	}
 
@@ -71,13 +66,11 @@ public class AdminPublisherController {
 	public ResponseEntity<List<Publisher>> readPublishers() {
 		List<Publisher> publishers = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			publishers = service.readPublishers();
-			if (publishers == null) // no publishers exist in the database
-				status = HttpStatus.NO_CONTENT;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		publishers = service.readPublishers();
+		if (publishers == null) // no publishers exist in the database
+			status = HttpStatus.NO_CONTENT;
+
 		return new ResponseEntity<List<Publisher>>(publishers, status);
 	}
 
@@ -89,15 +82,13 @@ public class AdminPublisherController {
 	public ResponseEntity<Publisher> deletePublisher(@PathVariable int id) {
 		Publisher publisher = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			publisher = service.readPublisher(id);
-			if (publisher == null) // no publisher with the specified ID exists
-				status = HttpStatus.NOT_FOUND;
-			else
-				service.deletePublisher(publisher);
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		publisher = service.readPublisher(id);
+		if (publisher == null) // no publisher with the specified ID exists
+			status = HttpStatus.NOT_FOUND;
+		else
+			service.deletePublisher(publisher);
+
 		return new ResponseEntity<Publisher>(publisher, status);
 	}
 
@@ -113,14 +104,12 @@ public class AdminPublisherController {
 				|| (publisher.getAddress() != null && publisher.getAddress().length() > 45)
 				|| (publisher.getPhone() != null && publisher.getPhone().length() > 45))
 			return new ResponseEntity<Publisher>(publisher, status);
-		try {
-			if (service.readPublisher(publisher.getPublisherId()) == null) // no publisher with the specified ID exists
-				return new ResponseEntity<Publisher>(publisher, status);
-			service.updatePublisher(publisher);
-			status = HttpStatus.OK;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		if (service.readPublisher(publisher.getPublisherId()) == null) // no publisher with the specified ID exists
+			return new ResponseEntity<Publisher>(publisher, HttpStatus.NOT_FOUND);
+		service.savePublisher(publisher);
+		status = HttpStatus.OK;
+
 		return new ResponseEntity<Publisher>(publisher, status);
 	}
 

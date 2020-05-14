@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.ss.training.lms.controller.AdminBorrwerController;
+import com.ss.training.lms.controller.AdminBorrowerController;
 import com.ss.training.lms.entity.Author;
 import com.ss.training.lms.entity.Borrower;
 import com.ss.training.lms.service.admin.AdminBorrowerService;
@@ -35,7 +35,7 @@ public class AdminBorrowerControllerTest {
     AdminBorrowerService borrowerService;
 	
 	@InjectMocks
-	private AdminBorrwerController adminBorrowerController;
+	private AdminBorrowerController adminBorrowerController;
 	
 	@BeforeAll
 	public void setup() throws Exception
@@ -44,7 +44,7 @@ public class AdminBorrowerControllerTest {
 	}
 
 	@Test
-	public void testReadABorrower() throws Exception
+	public void testReadBorrower() throws Exception
 	{
 		// mock data to be returned. 
 			Borrower borrower = new Borrower(1,"name", "address", "phone");
@@ -55,13 +55,13 @@ public class AdminBorrowerControllerTest {
 			item.put("address", "address");
 			item.put("phone","phone");
 			
-			Mockito.when(borrowerService.readABorrower(1)).thenReturn(borrower);
+			Mockito.when(borrowerService.readBorrower(1)).thenReturn(borrower);
 			
 			mockMvc.perform(MockMvcRequestBuilders.get("/lms/admin/borrowers/1").accept(MediaType.APPLICATION_JSON))
 					.andExpect(MockMvcResultMatchers.status().isOk())
 					.andExpect(MockMvcResultMatchers.content().json(item.toString()));
 			
-			Mockito.when(borrowerService.readABorrower(1)).thenReturn(null);
+			Mockito.when(borrowerService.readBorrower(1)).thenReturn(null);
 			
 			// test the return when the database is empty
 			mockMvc.perform(MockMvcRequestBuilders.get("/lms/admin/borrowers/1"))
@@ -126,7 +126,7 @@ public class AdminBorrowerControllerTest {
 	public void testUpdateBorrower() throws Exception
 	{
 		Borrower borrower = new Borrower(1, "david", "address", "phone");
-		Mockito.when(borrowerService.readABorrower(1)).thenReturn(borrower);
+		Mockito.when(borrowerService.readBorrower(1)).thenReturn(borrower);
 		
 		JSONObject item = new JSONObject();
 		item.put("cardNo", 1);
@@ -150,7 +150,7 @@ public class AdminBorrowerControllerTest {
 				.content(item2.toJSONString()))
 		.andExpect(MockMvcResultMatchers.status().isBadRequest());
 		
-		Mockito.when(borrowerService.readABorrower(1)).thenReturn(null);
+		Mockito.when(borrowerService.readBorrower(1)).thenReturn(null);
 		mockMvc.perform(MockMvcRequestBuilders.put("/lms/admin/borrowers")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(item.toJSONString()))
@@ -162,12 +162,12 @@ public class AdminBorrowerControllerTest {
 	public void testDeleteBorrower() throws Exception
 	{
 		Borrower borrower = new Borrower(1,"david","address","phone");
-		Mockito.when(borrowerService.readABorrower(1)).thenReturn(borrower);
+		Mockito.when(borrowerService.readBorrower(1)).thenReturn(borrower);
 
 		mockMvc.perform(MockMvcRequestBuilders.delete("/lms/admin/borrowers/1"))
 			.andExpect(MockMvcResultMatchers.status().isOk());
 		
-		Mockito.when(borrowerService.readABorrower(1)).thenReturn(null);
+		Mockito.when(borrowerService.readBorrower(1)).thenReturn(null);
 		mockMvc.perform(MockMvcRequestBuilders.delete("/lms/admin/authors/1"))
 		.andExpect(MockMvcResultMatchers.status().isNotFound());
 	}

@@ -2,12 +2,28 @@ package com.ss.training.lms.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="tbl_book_genres")
+@IdClass(BookGenreId.class)
 public class BookGenre implements Serializable{
+
     /**
      *
      */
-    private static final long serialVersionUID = -2215002821278598222L;
+    private static final long serialVersionUID = 6979716688588974775L;
+
+    @Id
+    @Column(name="genre_id")
     private Integer genreId;
+
+    @Id
+    @Column(name="bookId")
     private Integer bookId;
 
     public BookGenre(Integer genreId, int bookId) {
@@ -69,7 +85,4 @@ public class BookGenre implements Serializable{
     public String toString() {
         return "BookGenre [bookId=" + bookId + ", genreId=" + genreId + "]";
     }
-
-
-
 }

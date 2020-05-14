@@ -1,6 +1,5 @@
 package com.ss.training.lms.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +34,10 @@ public class AdminAuthorController {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (author == null || author.getAuthorName() == null || author.getAuthorName().length() > 45)
 			return new ResponseEntity<Author>(author, status);
-		try {
-			service.createAuthor(author); // this will also set the ID of this author object if successful
-			status = HttpStatus.CREATED;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		service.saveAuthor(author); // this will also set the ID of this author object if successful
+		status = HttpStatus.CREATED;
+
 		return new ResponseEntity<Author>(author, status);
 	}
 
@@ -52,13 +49,11 @@ public class AdminAuthorController {
 	public ResponseEntity<Author> readAuthor(@PathVariable int id) {
 		Author author = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			author = service.readAuthor(id);
-			if (author == null) // no author with the specified ID exists
-				status = HttpStatus.NOT_FOUND;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		author = service.readAuthor(id);
+		if (author == null) // no author with the specified ID exists
+			status = HttpStatus.NOT_FOUND;
+
 		return new ResponseEntity<Author>(author, status);
 	}
 
@@ -70,15 +65,11 @@ public class AdminAuthorController {
 		List<Author> authorList = null;
 		Author[] authorArray = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			authorList = service.readAuthors();
-			if (authorList == null) // no authors exist in the database
-				status = HttpStatus.NO_CONTENT;
-			else
-				authorArray = authorList.toArray(new Author[authorList.size()]);
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+		authorList = service.readAuthors();
+		if (authorList == null) // no authors exist in the database
+			status = HttpStatus.NO_CONTENT;
+		else
+			authorArray = authorList.toArray(new Author[authorList.size()]);
 		return new ResponseEntity<Author[]>(authorArray, status);
 	}
 
@@ -90,15 +81,13 @@ public class AdminAuthorController {
 	public ResponseEntity<Author> deleteAuthor(@PathVariable int id) {
 		Author author = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			author = service.readAuthor(id);
-			if (author == null) // no author with the specified ID exists
-				status = HttpStatus.NOT_FOUND;
-			else
-				service.deleteAuthor(author);
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		author = service.readAuthor(id);
+		if (author == null) // no author with the specified ID exists
+			status = HttpStatus.NOT_FOUND;
+		else
+			service.deleteAuthor(author);
+
 		return new ResponseEntity<Author>(author, status);
 	}
 
@@ -111,14 +100,12 @@ public class AdminAuthorController {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (author == null || author.getAuthorName() == null || author.getAuthorName().length() > 45)
 			return new ResponseEntity<Author>(author, status);
-		try {
-			if (service.readAuthor(author.getAuthorId()) == null) // no author with the specified ID exists
-				return new ResponseEntity<Author>(author, status);
-			service.updateAuthor(author);
-			status = HttpStatus.OK;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		if (service.readAuthor(author.getAuthorId()) == null) // no author with the specified ID exists
+			return new ResponseEntity<Author>(author, HttpStatus.NOT_FOUND);
+		service.saveAuthor(author);
+		status = HttpStatus.OK;
+
 		return new ResponseEntity<Author>(author, status);
 	}
 

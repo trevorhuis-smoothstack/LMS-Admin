@@ -102,7 +102,7 @@ public class AdminBranchController {
 			return new ResponseEntity<LibraryBranch>(branch, status);
 
 		if (service.readBranch(branch.getBranchId()) == null) // no branch with the specified ID exists
-			return new ResponseEntity<LibraryBranch>(branch, status);
+			return new ResponseEntity<LibraryBranch>(branch, HttpStatus.NOT_FOUND);
 		service.saveBranch(branch);
 		status = HttpStatus.OK;
 

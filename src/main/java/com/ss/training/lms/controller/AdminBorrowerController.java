@@ -76,7 +76,7 @@ public class AdminBorrowerController {
     }
 
     @RequestMapping(path = "/borrowers/{cardNo}")
-    public ResponseEntity<Borrower> readABorrower(@PathVariable int cardNo) {
+    public ResponseEntity<Borrower> readBorrower(@PathVariable int cardNo) {
         HttpStatus status = HttpStatus.OK;
         Borrower borrower = null;
 

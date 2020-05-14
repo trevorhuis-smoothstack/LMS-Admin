@@ -101,7 +101,7 @@ public class AdminAuthorController {
 			return new ResponseEntity<Author>(author, status);
 
 		if (service.readAuthor(author.getAuthorId()) == null) // no author with the specified ID exists
-			return new ResponseEntity<Author>(author, status);
+			return new ResponseEntity<Author>(author, HttpStatus.NOT_FOUND);
 		service.saveAuthor(author);
 		status = HttpStatus.OK;
 

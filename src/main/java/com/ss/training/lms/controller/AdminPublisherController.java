@@ -106,10 +106,9 @@ public class AdminPublisherController {
 			return new ResponseEntity<Publisher>(publisher, status);
 
 		if (service.readPublisher(publisher.getPublisherId()) == null) // no publisher with the specified ID exists
-			return new ResponseEntity<Publisher>(publisher, status);
+			return new ResponseEntity<Publisher>(publisher, HttpStatus.NOT_FOUND);
 		service.savePublisher(publisher);
 		status = HttpStatus.OK;
-
 
 		return new ResponseEntity<Publisher>(publisher, status);
 	}

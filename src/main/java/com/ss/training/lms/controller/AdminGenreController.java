@@ -75,7 +75,7 @@ public class AdminGenreController {
 	@PostMapping()
 	public ResponseEntity<Genre> createGenre(@RequestBody Genre genre) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		if(genre == null || genre.getGenreID() == null || (genre.getGenreName() != null && genre.getGenreName().length() > 45))
+		if(genre == null || genre.getGenreName() == null || genre.getGenreName().length() > 45)
 				return new ResponseEntity<Genre>(genre, HttpStatus.BAD_REQUEST);
         try {
 			genreService.createGenre(genre);
@@ -95,13 +95,13 @@ public class AdminGenreController {
 	@PutMapping()
 	public ResponseEntity<Genre> updateGenre(@RequestBody Genre genre) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		if(genre == null || genre.getGenreID() == null || (genre.getGenreName() != null && genre.getGenreName().length() > 45))
+		if(genre == null || genre.getGenreId() == null || (genre.getGenreName() != null && genre.getGenreName().length() > 45))
 			return new ResponseEntity<Genre>(genre, status);
         try {
 			if(genreService.readGenre(genre.getGenreId()) == null)
 				return new ResponseEntity<Genre>(genre, HttpStatus.NOT_FOUND);
 			genreService.updateGenre(genre);
-			status = HttpStatus.CREATED;
+			status = HttpStatus.OK;
 		} catch (ClassNotFoundException | SQLException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}

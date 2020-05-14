@@ -32,13 +32,8 @@ public class AdminBorrowerController {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<Borrower>(borrower, status);
         }
-        try {
-            adminBorrowerService.addABorrower(borrower);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-            return new ResponseEntity<Borrower>(borrower, status);
-        }
+        adminBorrowerService.saveBorrower(borrower);
+
         return new ResponseEntity<Borrower>(borrower, status);
     }
     
@@ -51,19 +46,15 @@ public class AdminBorrowerController {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<Borrower>(borrower, status);
         }
-        try {
-        	Borrower checkTable = adminBorrowerService.readABorrower(borrower.getCardNo());
-        	if (checkTable == null)
-        	{
-        		status = HttpStatus.NOT_FOUND;
-                return new ResponseEntity<Borrower>(borrower, status);
-        	}
-            adminBorrowerService.deleteABorrower(borrower);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+        Borrower checkTable = adminBorrowerService.readBorrower(borrower.getCardNo());
+        if (checkTable == null)
+        {
+            status = HttpStatus.NOT_FOUND;
             return new ResponseEntity<Borrower>(borrower, status);
         }
+        adminBorrowerService.deleteBorrower(borrower);
+
         return new ResponseEntity<Borrower>(borrower, status);
     }
 
@@ -75,19 +66,13 @@ public class AdminBorrowerController {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<Borrower>(borrower, status);
         }
-        try {
-        	Borrower findBorrower = adminBorrowerService.readABorrower(borrower.getCardNo());
-        	if (findBorrower == null)
-        	{
-        		status = HttpStatus.NOT_FOUND;
-                return new ResponseEntity<Borrower>(borrower, status);
-        	}
-            adminBorrowerService.updateABorrower(borrower);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        Borrower findBorrower = adminBorrowerService.readBorrower(borrower.getCardNo());
+        if (findBorrower == null)
+        {
+            status = HttpStatus.NOT_FOUND;
             return new ResponseEntity<Borrower>(borrower, status);
         }
+        adminBorrowerService.saveBorrower(borrower);
         return new ResponseEntity<Borrower>(borrower, status);
     }
 
@@ -96,18 +81,13 @@ public class AdminBorrowerController {
         HttpStatus status = HttpStatus.OK;
         Borrower borrower = null;
 
-        try {
-            borrower = adminBorrowerService.readABorrower(cardNo);
-            if (borrower == null)
-            {
-                status = HttpStatus.NOT_FOUND;
-                return new ResponseEntity<Borrower>(borrower, status);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        borrower = adminBorrowerService.readBorrower(cardNo);
+        if (borrower == null)
+        {
+            status = HttpStatus.NOT_FOUND;
             return new ResponseEntity<Borrower>(borrower, status);
         }
+        
         return new ResponseEntity<Borrower>(borrower, status);
     }
 
@@ -116,18 +96,14 @@ public class AdminBorrowerController {
         HttpStatus status = HttpStatus.OK;
         List<Borrower> borrowers = null;
 
-        try {
-            borrowers = adminBorrowerService.readAllBorrowers();
-            if (borrowers == null)
-            {
-                status = HttpStatus.NO_CONTENT;
-                return new ResponseEntity<List<Borrower>>(borrowers, status);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+        borrowers = adminBorrowerService.readAllBorrowers();
+        if (borrowers == null)
+        {
+            status = HttpStatus.NO_CONTENT;
             return new ResponseEntity<List<Borrower>>(borrowers, status);
         }
+
         return new ResponseEntity<List<Borrower>>(borrowers, status);
     }
 }

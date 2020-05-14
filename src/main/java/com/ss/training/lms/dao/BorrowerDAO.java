@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BorrowerDAO extends JpaRepository<Borrower, Long> {
-
+    Borrower findByCardNo(Integer cardNo);
 }

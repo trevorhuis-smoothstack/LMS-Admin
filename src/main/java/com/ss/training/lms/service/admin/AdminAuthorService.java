@@ -1,7 +1,5 @@
 package com.ss.training.lms.service.admin;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,113 +19,30 @@ public class AdminAuthorService {
 
 	/**
 	 * @param author
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
 	 */
-	public void createAuthor(Author author) throws SQLException, ClassNotFoundException {
-		boolean success = false;
-		Connection conn = null;
-		try {
-			conn = connUtil.getConnection();
-			// objects are passed by reference so this will set the ID of the author in the
-			// calling class
-			author.setAuthorId(authorDAO.addAuthor(author, conn));
-			success = true;
-		} finally {
-			if (success)
-				conn.commit();
-			else
-				conn.rollback();
-			if (conn != null)
-				conn.close();
-		}
+	public void saveAuthor(Author author) {
+		authorDAO.save(author);
 	}
 
 	/**
 	 * @param author
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
 	 */
-	public void deleteAuthor(Author author) throws SQLException, ClassNotFoundException {
-		Connection conn = null;
-		boolean success = false;
-		try {
-			conn = connUtil.getConnection();
-			authorDAO.deleteAuthor(author, conn);
-			success = true;
-		} finally {
-			if (success)
-				conn.commit();
-			else
-				conn.rollback();
-			if (conn != null) {
-				conn.close();
-			}
-		}
-	}
-
-	/**
-	 * @param author
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	public void updateAuthor(Author author) throws ClassNotFoundException, SQLException {
-		boolean success = false;
-		Connection conn = null;
-		try {
-			conn = connUtil.getConnection();
-			authorDAO.updateAuthor(author, conn);
-			success = true;
-		} finally {
-			if (success)
-				conn.commit();
-			else
-				conn.rollback();
-			if (conn != null) {
-				conn.close();
-			}
-		}
+	public void deleteAuthor(Author author) {
+		authorDAO.delete(author);
 	}
 
 	/**
 	 * @param authorId
 	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	public Author readAuthor(Integer authorId) throws ClassNotFoundException, SQLException {
-		Connection conn = null;
-		try {
-			conn = connUtil.getConnection();
-			List<Author> authors = authorDAO.readAnAuthor(authorId, conn);
-			if (authors.size() == 0)
-				return null;
-			return authors.get(0);
-		} finally {
-			if (conn != null) {
-				conn.close();
-			}
-		}
+	public Author readAuthor(Integer authorId) {
+		return authorDAO.findByAuthorId(authorId);
 	}
 
 	/**
 	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	public List<Author> readAuthors() throws ClassNotFoundException, SQLException {
-		Connection conn = null;
-		try {
-			conn = connUtil.getConnection();
-			List<Author> authors = authorDAO.readAllAuthors(conn);
-			if (authors.size() == 0) {
-				return null;
-			}
-			return authors;
-		} finally {
-			if (conn != null) {
-				conn.close();
-			}
-		}
+	public List<Author> readAuthors() {
+		return authorDAO.findAll();
 	}
 }

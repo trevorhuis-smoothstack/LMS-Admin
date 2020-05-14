@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuthorDAO extends JpaRepository<Author, Long> {
-
+    Author findByAuthorId(Integer authorId);
 }

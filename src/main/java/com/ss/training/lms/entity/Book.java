@@ -2,25 +2,40 @@ package com.ss.training.lms.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="tbl_book")
 public class Book implements Serializable{
-    /**
-     *
-     */
+
     private static final long serialVersionUID = -3859753496101899553L;
-    private Integer bookId;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="bookId")
+    private int bookId;
+
+    @Column(name="title")
     private String title;
-    private Integer publisherId;
+
+    @Column(name="pubId")
+    private int publisherId;
 
     @Override
     public String toString() {
         return bookId + ", " + title + ", " + publisherId;
     }
 
-    public Integer getBookId() {
+    public int getBookId() {
         return bookId;
     }
 
-    public void setBookId(Integer bookId) {
+    public void setBookId(int bookId) {
         this.bookId = bookId;
     }
 
@@ -32,15 +47,15 @@ public class Book implements Serializable{
         this.title = title;
     }
 
-    public Integer getPublisherId() {
+    public int getPublisherId() {
         return publisherId;
     }
 
-    public void setPublisherId(Integer publisherId) {
+    public void setPublisherId(int publisherId) {
         this.publisherId = publisherId;
     }
 
-    public Book(Integer bookId, String title, Integer publisherId) {
+    public Book(int bookId, String title, int publisherId) {
         this.bookId = bookId;
         this.title = title;
         this.publisherId = publisherId;
@@ -49,7 +64,7 @@ public class Book implements Serializable{
     public Book() {
 	}
 
-    public Book(String title, Integer publisherId) {
+    public Book(String title, int publisherId) {
         this.title = title;
         this.publisherId = publisherId;
 	}

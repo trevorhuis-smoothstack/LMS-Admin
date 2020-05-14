@@ -136,7 +136,7 @@ public class AdminGenreControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.put("/lms/admin/genre")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(updatingGenre.toJSONString()))
-		.andExpect(MockMvcResultMatchers.status().isOk());
+		.andExpect(MockMvcResultMatchers.status().isCreated());
 		
 		JSONObject improperGenre = new JSONObject();
 		improperGenre.put("genreId",1);

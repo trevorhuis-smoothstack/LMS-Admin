@@ -1,6 +1,6 @@
 package com.ss.training.lms.controller;
 
-import java.sql.SQLException;
+
 import java.util.List;
 
 import com.ss.training.lms.entity.Author;
@@ -48,12 +48,9 @@ public class AdminBookController {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         if (book == null || book.getTitle() == null || (book.getTitle() != null && book.getTitle().length() > 45))
 			return new ResponseEntity<Book>(book, status);
-		try {
-			bookService.createBook(book);
-			status = HttpStatus.CREATED;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+		
+		bookService.saveBook(book);
+		status = HttpStatus.CREATED;
 		return new ResponseEntity<Book>(book, status);
     }
 
@@ -66,13 +63,10 @@ public class AdminBookController {
 	public ResponseEntity<Book> readBook(@PathVariable int bookId) {
 		Book book = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			book = bookService.readBook(bookId);
-			if (book == null) 
-				status = HttpStatus.NOT_FOUND;
-		} catch ( SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+		
+		book = bookService.readBook(bookId);
+		if (book == null) 
+			status = HttpStatus.NOT_FOUND;
 		return new ResponseEntity<Book>(book, status);
 	}
 
@@ -84,13 +78,10 @@ public class AdminBookController {
 	public ResponseEntity<List<Book>> readBooks() {
 		List<Book> books = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			books = bookService.readAllBooks();
-			if (books == null) // no Books exist in the database
-				status = HttpStatus.NO_CONTENT;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+		
+		books = bookService.readAllBooks();
+		if (books == null) // no Books exist in the database
+			status = HttpStatus.NO_CONTENT;
 		return new ResponseEntity<List<Book>>(books, status);
 	}
 
@@ -103,15 +94,13 @@ public class AdminBookController {
 	public ResponseEntity<Book> deleteBook(@PathVariable int bookId) {
 		Book book = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			book = bookService.readBook(bookId);
-			if (book == null) 
-				status = HttpStatus.NOT_FOUND;
-			else
-				bookService.deleteBook(book);
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+		
+		book = bookService.readBook(bookId);
+		if (book == null) 
+			status = HttpStatus.NOT_FOUND;
+		else
+			bookService.deleteBook(book);
+
 		return new ResponseEntity<Book>(book, status);
 	}
 
@@ -125,14 +114,11 @@ public class AdminBookController {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (book == null || (book.getTitle() != null && book.getTitle().length() > 45))
 			return new ResponseEntity<Book>(book, status);
-		try {
-			if (bookService.readBook(book.getBookId()) == null)
-				return new ResponseEntity<Book>(book, HttpStatus.NOT_FOUND);
-			bookService.updateBook(book);
-			status = HttpStatus.OK;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		if (bookService.readBook(book.getBookId()) == null)
+			return new ResponseEntity<Book>(book, HttpStatus.NOT_FOUND);
+		bookService.saveBook(book);
+		status = HttpStatus.OK;
 		return new ResponseEntity<Book>(book, status);
     }
 	
@@ -146,17 +132,14 @@ public class AdminBookController {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (genreRef == null || genreRef.getBookId() == null || genreRef.getGenreId() == null)
             return new ResponseEntity<BookGenre>(genreRef, status);
-        try {
-            Genre genre = genreService.readGenre(genreRef.getGenreId());
-			Book book = bookService.readBook(genreRef.getBookId());
-			
-			if(book == null || genre == null) // Both need to exist to create a reference
-				return new ResponseEntity<BookGenre>(genreRef, status);
-            bookService.createGenreReference(genreRef.getGenreId(), genreRef.getBookId());
-            status = HttpStatus.CREATED;
-        } catch (ClassNotFoundException | SQLException e) {
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+        
+		Genre genre = genreService.readGenre(genreRef.getGenreId());
+		Book book = bookService.readBook(genreRef.getBookId());
+		
+		if(book == null || genre == null) // Both need to exist to create a reference
+			return new ResponseEntity<BookGenre>(genreRef, status);
+		bookService.createGenreReference(genreRef);
+		status = HttpStatus.CREATED;
         return new ResponseEntity<BookGenre>(genreRef, status);
     }
 
@@ -170,17 +153,14 @@ public class AdminBookController {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 		if (authorRef == null || authorRef.getBookId() == null || authorRef.getAuthorId() == null)
 			return new ResponseEntity<BookAuthor>(authorRef, status);
-		try {
-            Author author = authorService.readAuthor(authorRef.getAuthorId());
-			Book book = bookService.readBook(authorRef.getBookId());
+		
+		Author author = authorService.readAuthor(authorRef.getAuthorId());
+		Book book = bookService.readBook(authorRef.getBookId());
 
-			if(book == null || author == null) // Both need to exist to create a reference
-				return new ResponseEntity<BookAuthor>(authorRef, status);
-            bookService.createAuthorReference(authorRef.getAuthorId(), authorRef.getBookId());
-            status = HttpStatus.CREATED;
-        } catch (ClassNotFoundException | SQLException e) {
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+		if(book == null || author == null) // Both need to exist to create a reference
+			return new ResponseEntity<BookAuthor>(authorRef, status);
+		bookService.createAuthorReference(authorRef);
+		status = HttpStatus.CREATED;
         return new ResponseEntity<BookAuthor>(authorRef, status);
     }
 }

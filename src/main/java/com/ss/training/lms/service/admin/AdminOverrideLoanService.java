@@ -22,37 +22,24 @@ public class AdminOverrideLoanService {
 	@Autowired
 	BookLoanDAO loanDAO;
 
-    public boolean addAWeekToALoan(BookLoan loan) throws SQLException{
-        Connection conn = null;
-        try {
-            conn = connUtil.getConnection();
-            List<BookLoan> loans = loanDAO.readAllLoansFromABorrower(loan.getCardNo(), conn);
-            for (BookLoan l: loans)
+    public boolean addAWeekToALoan(BookLoan loan) {
+        List<BookLoan> loans = loanDAO.findByCardNo(loan.getCardNo());
+        for (BookLoan l: loans)
+        {
+            if (   l.getBookId() == loan.getBookId()
+                && l.getCardNo() == loan.getCardNo()
+                && l.getDateOut() == loan.getDateOut()
+                && l.getDateIn() != null)
             {
-            	if (   l.getBookId() == loan.getBookId()
-        			&& l.getCardNo() == loan.getCardNo()
-        			&& l.getDateOut() == loan.getDateOut()
-        			&& l.getDateIn() != null)
-            	{
-            		return false;
-            	}
+                return false;
             }
-            
-            LocalDateTime timeTochange = loan.getDueDate().toLocalDateTime();
-            timeTochange = timeTochange.plusDays(7);
-            Timestamp newTime = Timestamp.valueOf(timeTochange);
-            loan.setDueDate(newTime);
-            loanDAO.updateBookLoan(loan, conn);
-            conn.commit();
-        } catch ( ClassNotFoundException | SQLException e) {
-            System.out.println("We could not update that loan.");
-            conn.rollback();
-            return false;
-        } finally {
-			if(conn!=null){
-				conn.close();
-			}
-		}
+        }
+        
+        LocalDateTime timeTochange = loan.getDueDate().toLocalDateTime();
+        timeTochange = timeTochange.plusDays(7);
+        Timestamp newTime = Timestamp.valueOf(timeTochange);
+        loan.setDueDate(newTime);
+        loanDAO.save(loan);
         return true;
     }
 

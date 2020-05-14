@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.ss.training.lms.controller.AdminBorrwerController;
+import com.ss.training.lms.controller.AdminBorrowerController;
 import com.ss.training.lms.entity.Author;
 import com.ss.training.lms.entity.Borrower;
 import com.ss.training.lms.service.admin.AdminBorrowerService;
@@ -35,7 +35,7 @@ public class AdminBorrowerControllerTest {
     AdminBorrowerService borrowerService;
 	
 	@InjectMocks
-	private AdminBorrwerController adminBorrowerController;
+	private AdminBorrowerController adminBorrowerController;
 	
 	@BeforeAll
 	public void setup() throws Exception

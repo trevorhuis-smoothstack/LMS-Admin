@@ -2,12 +2,28 @@ package com.ss.training.lms.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="tbl_genre")
 public class Genre implements Serializable {
+	
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4729763178530861665L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="genre_id")
 	private Integer genreId;
+
+	@Column(name="genre_name")
 	private String genreName;
 
 	public Genre(Integer genreId, String genreName) {

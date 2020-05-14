@@ -3,14 +3,32 @@ package com.ss.training.lms.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name="tbl_author")
 public class Author implements Serializable{
     
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7083711478431095488L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="authorId")
 	private int authorId;
+
+	@Column(name="authorName")
 	private String authorName;
+	
+	@Transient
 	private List<Book> books;
 
 	public Author(int authorId, String authorName, List<Book> books) {

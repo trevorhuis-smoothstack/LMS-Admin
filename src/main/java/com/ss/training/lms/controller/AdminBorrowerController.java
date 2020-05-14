@@ -1,6 +1,5 @@
 package com.ss.training.lms.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.ss.training.lms.entity.Borrower;

@@ -13,5 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface BookLoanDAO extends JpaRepository<BookLoan, Long> {
 	List<BookLoan> findByCardNo(Integer cardNo);
 
+	List<BookLoan> findByBranchId(Integer branchId);
+
 	BookLoan findByBranchIdAndBookIdAndCardNoAndDateOut(Integer branchId, Integer bookId, Integer cardNo, Timestamp dateOut);
 }

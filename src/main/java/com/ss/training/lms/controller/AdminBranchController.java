@@ -1,6 +1,5 @@
 package com.ss.training.lms.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +32,10 @@ public class AdminBranchController {
 		if (branch == null || (branch.getBranchName() != null && branch.getBranchName().length() > 45)
 				|| (branch.getBranchAddress() != null && branch.getBranchAddress().length() > 45))
 			return new ResponseEntity<LibraryBranch>(branch, status);
-		try {
-			service.createBranch(branch); // this will also set the ID of this branch object if successful
-			status = HttpStatus.CREATED;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		service.saveBranch(branch); // this will also set the ID of this branch object if successful
+		status = HttpStatus.CREATED;
+
 		return new ResponseEntity<LibraryBranch>(branch, status);
 	}
 
@@ -54,13 +51,11 @@ public class AdminBranchController {
 	public ResponseEntity<List<LibraryBranch>> readBranches() {
 		List<LibraryBranch> branches = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			branches = service.readBranches();
-			if (branches == null) // no branches exist in the database
-				status = HttpStatus.NO_CONTENT;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		branches = service.readBranches();
+		if (branches == null) // no branches exist in the database
+			status = HttpStatus.NO_CONTENT;
+
 		return new ResponseEntity<List<LibraryBranch>>(branches, status);
 	}
 
@@ -72,15 +67,13 @@ public class AdminBranchController {
 	public ResponseEntity<LibraryBranch> deleteBranch(@PathVariable int id) {
 		LibraryBranch branch = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			branch = service.readBranch(id);
-			if (branch == null) // no branch with the specified ID exists
-				status = HttpStatus.NOT_FOUND;
-			else
-				service.deleteBranch(branch);
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		branch = service.readBranch(id);
+		if (branch == null) // no branch with the specified ID exists
+			status = HttpStatus.NOT_FOUND;
+		else
+			service.deleteBranch(branch);
+
 		return new ResponseEntity<LibraryBranch>(branch, status);
 	}
 
@@ -88,13 +81,11 @@ public class AdminBranchController {
 	public ResponseEntity<LibraryBranch> readBranch(@PathVariable int id) {
 		LibraryBranch branch = null;
 		HttpStatus status = HttpStatus.OK;
-		try {
-			branch = service.readBranch(id);
-			if (branch == null) // no branch with the requested ID exists
-				status = HttpStatus.NOT_FOUND;
-		} catch (SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		branch = service.readBranch(id);
+		if (branch == null) // no branch with the requested ID exists
+			status = HttpStatus.NOT_FOUND;
+
 		return new ResponseEntity<LibraryBranch>(branch, status);
 	}
 
@@ -109,14 +100,12 @@ public class AdminBranchController {
 		if (branch == null || (branch.getBranchName() != null && branch.getBranchName().length() > 45)
 				|| (branch.getBranchAddress() != null && branch.getBranchAddress().length() > 45))
 			return new ResponseEntity<LibraryBranch>(branch, status);
-		try {
-			if (service.readBranch(branch.getBranchId()) == null) // no branch with the specified ID exists
-				return new ResponseEntity<LibraryBranch>(branch, status);
-			service.updateBranch(branch);
-			status = HttpStatus.OK;
-		} catch (ClassNotFoundException | SQLException e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+
+		if (service.readBranch(branch.getBranchId()) == null) // no branch with the specified ID exists
+			return new ResponseEntity<LibraryBranch>(branch, status);
+		service.saveBranch(branch);
+		status = HttpStatus.OK;
+
 		return new ResponseEntity<LibraryBranch>(branch, status);
 	}
 
